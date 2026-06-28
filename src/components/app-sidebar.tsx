@@ -16,7 +16,7 @@ import { dropdownOpenAtom } from "@/atoms/uiAtoms";
 import { selectedAppIdAtom } from "@/atoms/appAtoms";
 import { selectedChatIdAtom } from "@/atoms/chatAtoms";
 // @ts-ignore
-import lotusMark from "../../assets/lotus-mark.png";
+import lotusMark from "../../assets/lotus-logo.png";
 
 import {
   Sidebar,

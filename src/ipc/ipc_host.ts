@@ -28,6 +28,7 @@ import { registerAppUpgradeHandlers } from "./handlers/app_upgrade_handlers";
 import { registerCapacitorHandlers } from "./handlers/capacitor_handlers";
 import { registerProblemsHandlers } from "./handlers/problems_handlers";
 import { registerAppEnvVarsHandlers } from "./handlers/app_env_vars_handlers";
+import { registerOpenRouterBalanceHandlers } from "./handlers/openrouter_balance_handlers";
 import { registerTemplateHandlers } from "./handlers/template_handlers";
 import { registerThemesHandlers } from "../pro/main/ipc/handlers/themes_handlers";
 import { registerPortalHandlers } from "./handlers/portal_handlers";
@@ -81,6 +82,7 @@ export function registerIpcHandlers() {
   registerAppUpgradeHandlers();
   registerCapacitorHandlers();
   registerAppEnvVarsHandlers();
+  registerOpenRouterBalanceHandlers();
   registerTemplateHandlers();
   registerThemesHandlers();
   registerPortalHandlers();

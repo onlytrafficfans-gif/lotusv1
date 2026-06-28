@@ -89,43 +89,43 @@ body[data-scroll-locked] .app-region-drag {
 :root {
   /* Matches TitleBar height — keep TitleBar using this var so main panel clears it exactly */
   --layout-title-bar-offset: 2.25rem;
-  --docs-bg: #fbf7ef;
+  --docs-bg: #0f0f0f;
   --default-font-family: "Geist", sans-serif;
   --default-mono-font-family: "Geist Mono", monospace;
-  --lotus-bg: #fbf7ef;
-  --lotus-panel: #fffaf2;
-  --lotus-border: #eadfce;
-  --lotus-text: #2e2d2b;
+  --lotus-bg: #0f0f0f;
+  --lotus-panel: #1a1a1a;
+  --lotus-border: #3a3a3a;
+  --lotus-text: #f5f1e8;
   --lotus-muted: #8a8175;
-  --lotus-gold: #c9985a;
-  --lotus-gold-dark: #a8763e;
-  --lotus-blush: #f4c7cf;
+  --lotus-gold: #d4af37;
+  --lotus-gold-dark: #c9a961;
+  --lotus-blush: #d88b98;
   --lotus-rose: #d88b98;
   /* --background: oklch(1 0 0); */
-  --background-lightest: var(--lotus-panel);
-  --background-lighter: #fff7ec;
+  --background-lightest: #2a2a2a;
+  --background-lighter: #1f1f1f;
   --background: var(--lotus-bg);
-  --background-darker: #f1e8dc;
-  --background-darkest: #e4d7c7;
+  --background-darker: #0a0a0a;
+  --background-darkest: #000000;
 
   --foreground: var(--lotus-text);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: var(--lotus-gold-dark);
+  --card: #1a1a1a;
+  --card-foreground: #f5f1e8;
+  --popover: #2a2a2a;
+  --popover-foreground: #f5f1e8;
+  --primary: var(--lotus-gold);
   /* --primary: oklch(0.205 0 0); */
-  --primary-foreground: #fffaf2;
-  --secondary: #f3eadf;
+  --primary-foreground: #0f0f0f;
+  --secondary: #2a2a2a;
   --secondary-foreground: var(--lotus-text);
-  --muted: #f0e6da;
-  --muted-foreground: var(--lotus-muted);
-  --accent: var(--lotus-blush);
-  --accent-foreground: #6f3f47;
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --muted: #3a3a3a;
+  --muted-foreground: #8a8175;
+  --accent: var(--lotus-gold);
+  --accent-foreground: #0f0f0f;
+  --destructive: #ef4444;
+  --destructive-foreground: #f5f1e8;
   --border: var(--lotus-border);
-  --input: #e5d8c8;
+  --input: #2a2a2a;
   --ring: var(--lotus-gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -133,18 +133,78 @@ body[data-scroll-locked] .app-region-drag {
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
-  --sidebar: #fff8ee;
+  --sidebar: #1a1a1a;
   /* --sidebar: oklch(0.975 0.0188 292.61); */
   /* --sidebar: oklch(0.985 0 0); */
   --sidebar-foreground: var(--lotus-text);
-  --sidebar-primary: var(--lotus-gold-dark);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: var(--lotus-gold);
+  --sidebar-primary-foreground: #0f0f0f;
   /* --sidebar-accent: oklch(0.97 0 0); */
-  --sidebar-accent: #f4eadc;
-  --sidebar-accent-foreground: var(--lotus-gold-dark);
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: var(--lotus-gold);
   --sidebar-border: var(--lotus-border);
   /* --sidebar-border: oklch(0.922 0 0); */
   --sidebar-ring: var(--lotus-gold);
+}
+
+/* Luxury Black & Cream Premium Styling */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Premium button styling */
+button {
+  position: relative;
+}
+
+button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--lotus-gold);
+  outline-offset: 2px;
+}
+
+/* Enhanced input styling */
+input, textarea, select {
+  background-color: var(--input);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--lotus-gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+/* Card elevation */
+[class*="card"], [class*="panel"] {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s ease;
+}
+
+[class*="card"]:hover, [class*="panel"]:hover {
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lotus-gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lotus-gold-dark);
 }
 
 .prose {

@@ -1,10 +1,8 @@
-# Dyad
+# Lotus App Builder
 
-Dyad is a local, open-source AI app builder. It's fast, private, and fully under your control — like Lovable, v0, or Bolt, but running right on your machine.
+Lotus App Builder is a local, open-source AI app builder. It's fast, private, and fully under your control — like Lovable, v0, or Bolt, but running right on your machine.
 
-[![Image](https://github.com/user-attachments/assets/f6c83dfc-6ffd-4d32-93dd-4b9c46d17790)](https://dyad.sh/)
-
-More info at: [https://dyad.sh/](https://dyad.sh/)
+![Lotus App Builder](https://github.com/user-attachments/assets/f6c83dfc-6ffd-4d32-93dd-4b9c46d17790)
 
 ## 🚀 Features
 
@@ -12,11 +10,9 @@ More info at: [https://dyad.sh/](https://dyad.sh/)
 - 🛠 **Bring your own keys**: Use your own AI API keys — no vendor lock-in.
 - 🖥️ **Cross-platform**: Easy to run on Mac or Windows.
 
-## 📦 Download
+## 📦 Installation
 
-No sign-up required. Just download and go.
-
-### [👉 Download for your platform](https://www.dyad.sh/#download)
+Build from source or download a release. No sign-up required. Just download and go.
 
 ## 🤝 Community
 
@@ -24,9 +20,9 @@ Join our growing community of AI app builders on **Reddit**: [r/dyadbuilders](ht
 
 ## 🛠️ Contributing
 
-**Dyad** is open-source (see License info below).
+**Lotus App Builder** is open-source (see License info below).
 
-If you're interested in contributing to dyad, please read our [contributing](./CONTRIBUTING.md) doc.
+If you're interested in contributing to Lotus App Builder, please read our [contributing](./CONTRIBUTING.md) doc.
 
 ## License
 

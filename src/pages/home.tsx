@@ -33,7 +33,7 @@ import { hasDyadProKey, getEffectiveDefaultChatMode } from "@/lib/schemas";
 import { useFreeAgentQuota } from "@/hooks/useFreeAgentQuota";
 import { useInitialChatMode } from "@/hooks/useInitialChatMode";
 // @ts-ignore
-import lotusMark from "../../assets/lotus-mark.png";
+import lotusMark from "../../assets/lotus-logo.png";
 
 // Adding an export for attachments
 export interface HomeSubmitOptions {

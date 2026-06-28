@@ -4,7 +4,7 @@ import { useLoadApps } from "@/hooks/useLoadApps";
 import { useRouter } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 // @ts-ignore
-import logo from "../../assets/lotus-mark.png";
+import logo from "../../assets/lotus-logo.png";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 import { ipc } from "@/ipc/types";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ChatTabs } from "@/components/chat/ChatTabs";
 import { selectedChatIdAtom } from "@/atoms/chatAtoms";
+import { OpenRouterBalance } from "@/components/OpenRouterBalance";
 
 export const TitleBar = () => {
   const [selectedAppId] = useAtom(selectedAppIdAtom);
@@ -79,6 +80,10 @@ export const TitleBar = () => {
 
       <div className="flex-1 min-w-0 overflow-hidden self-end">
         <ChatTabs selectedChatId={selectedChatId} />
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0 pr-2">
+        <OpenRouterBalance />
       </div>
 
       {showWindowControls && <WindowsControls />}

@@ -41,6 +41,19 @@ export const SetAppEnvVarsParamsSchema = z.object({
 });
 
 // =============================================================================
+// OpenRouter Balance Schemas
+// =============================================================================
+
+export const OpenRouterBalanceSchema = z.object({
+  creditsRemaining: z.number().nullable(),
+  monthlyUsage: z.number().nullable(),
+  monthlyLimit: z.number().nullable(),
+  lastUpdated: z.number(),
+});
+
+export type OpenRouterBalance = z.infer<typeof OpenRouterBalanceSchema>;
+
+// =============================================================================
 // Session Debug Bundle Schemas
 // =============================================================================
 
@@ -388,6 +401,19 @@ export const miscContracts = {
       packages: z.array(z.string()),
     }),
     output: z.void(),
+  }),
+
+  // OpenRouter balance
+  getOpenRouterBalance: defineContract({
+    channel: "get-openrouter-balance",
+    input: z.void(),
+    output: OpenRouterBalanceSchema,
+  }),
+
+  refreshOpenRouterBalance: defineContract({
+    channel: "refresh-openrouter-balance",
+    input: z.void(),
+    output: OpenRouterBalanceSchema,
   }),
 } as const;
 

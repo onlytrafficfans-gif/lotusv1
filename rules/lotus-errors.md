@@ -1,4 +1,4 @@
-# DyadError and telemetry
+# Error Handling and Telemetry (Lotus App Builder)
 
 Use `DyadError` from `src/errors/dyad_error.ts` when throwing from **main process / IPC handlers** (or code only called from there) for failures that are **not product bugs**: validation, missing entities, auth/setup prerequisites, user refusal, conflicts, rate limits, etc.
 
