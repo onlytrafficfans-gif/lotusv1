@@ -52,11 +52,11 @@ export function formatCloudSandboxError(error: unknown) {
 
   switch (error.code) {
     case "sandbox_pro_required":
-      return "Dyad Pro is required to use cloud sandboxes.";
+      return "A Lotus gateway key is required to use cloud sandboxes.";
     case "sandbox_insufficient_credits":
       return "You need at least 1 credit available to start a cloud sandbox.";
     case "sandbox_billing_unavailable":
-      return "Dyad couldn’t verify sandbox billing right now. Please try again.";
+      return "Lotus couldn’t verify sandbox billing right now. Please try again.";
     case "sandbox_credits_exhausted":
       return "This cloud sandbox stopped because your credits ran out.";
     default:
@@ -64,13 +64,13 @@ export function formatCloudSandboxError(error: unknown) {
         return "This cloud sandbox is no longer available.";
       }
       if (error.status === 401 || error.status === 403) {
-        return "Dyad couldn’t authorize the cloud sandbox request. Please try again.";
+        return "Lotus couldn’t authorize the cloud sandbox request. Please try again.";
       }
       if (error.status === 429) {
-        return "Dyad is rate limiting cloud sandbox requests right now. Please try again.";
+        return "Lotus is rate limiting cloud sandbox requests right now. Please try again.";
       }
       if (typeof error.status === "number" && error.status >= 500) {
-        return "Dyad’s cloud sandbox service is temporarily unavailable. Please try again.";
+        return "Lotus cloud sandbox service is temporarily unavailable. Please try again.";
       }
       return error.message;
   }
@@ -248,7 +248,7 @@ export function emitProxyServerStarted({
 }) {
   safeSend(event.sender, "app:output", {
     type: "stdout",
-    message: `[dyad-proxy-server]started=[${proxyUrl}] original=[${originalUrl}] mode=[${mode}]`,
+    message: `[lotus-proxy-server]started=[${proxyUrl}] original=[${originalUrl}] mode=[${mode}]`,
     appId,
   });
 }
@@ -322,7 +322,7 @@ export async function ensureProxyForRunningApp({
       logger.error(`Failed to start proxy for app ${appId}:`, error);
       safeSend(event.sender, "app:output", {
         type: "stderr",
-        message: `[dyad-proxy-server] ${error.message}`,
+        message: `[lotus-proxy-server] ${error.message}`,
         appId,
       });
     },

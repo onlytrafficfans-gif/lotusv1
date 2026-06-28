@@ -160,7 +160,7 @@ export const showExtraFilesToast = ({
 }) => {
   if (error) {
     showError(
-      `Error committing files ${files.join(", ")} changed outside of Dyad: ${error}`,
+      `Error committing files ${files.join(", ")} changed outside of Lotus: ${error}`,
     );
     posthog.capture("extra-files:error", {
       files: files,
@@ -168,7 +168,7 @@ export const showExtraFilesToast = ({
     });
   } else {
     showWarning(
-      `Files changed outside of Dyad have automatically been committed:
+      `Files changed outside of Lotus have automatically been committed:
     \n\n${files.join("\n")}`,
     );
     posthog.capture("extra-files:warning", {

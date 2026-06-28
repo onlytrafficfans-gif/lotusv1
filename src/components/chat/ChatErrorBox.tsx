@@ -34,6 +34,8 @@ export function ChatErrorBox({
   const isFreeModelQuotaError =
     normalizedError.includes("dyad_free_model_quota_exceeded") ||
     normalizedError.includes("FREE_MODEL_QUOTA_EXCEEDED") ||
+    normalizedError.includes("Lotus Free has reached its daily limit.") ||
+    normalizedError.includes("Lotus Free limit") ||
     normalizedError.includes("Dyad Free has reached its daily limit.") ||
     normalizedError.includes("Dyad Free limit");
   const { messagesLimit } = useFreeAgentQuota();
@@ -123,7 +125,7 @@ export function ChatErrorBox({
     return (
       <ChatErrorContainer onDismiss={onDismiss}>
         <span>
-          You have reached the {freeModelMessagesLimit}-message Dyad Free model
+          You have reached the {freeModelMessagesLimit}-message Lotus Free model
           limit.{resetText} Switch to a configured provider model.
         </span>
       </ChatErrorContainer>

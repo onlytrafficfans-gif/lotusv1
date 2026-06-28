@@ -25,15 +25,15 @@ const HubPage: React.FC = () => {
     templates?.filter((template) => !template.isOfficial) || [];
 
   return (
-    <div className="min-h-screen px-8 py-4">
-      <div className="max-w-5xl mx-auto pb-12">
+    <div className="min-h-screen bg-[color:var(--lotus-bg)] px-8 py-4">
+      <div className="mx-auto max-w-5xl pb-12">
         <BackButton />
         <header className="mb-8 text-left">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Pick your default template
+          <h1 className="mb-2 text-3xl font-semibold text-[color:var(--lotus-text)]">
+            Pick your Lotus starter
           </h1>
-          <p className="text-md text-gray-600 dark:text-gray-400">
-            Choose a starting point for your new project.
+          <p className="text-md text-[color:var(--lotus-muted)]">
+            Choose a clean starting point for your next app.
             {isLoading && " Loading additional templates..."}
           </p>
         </header>
@@ -41,8 +41,8 @@ const HubPage: React.FC = () => {
         {/* Official Templates Section */}
         {officialTemplates.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Official templates
+            <h2 className="mb-6 text-2xl font-semibold text-[color:var(--lotus-text)]">
+              Lotus templates
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {officialTemplates.map((template) => (
@@ -61,7 +61,7 @@ const HubPage: React.FC = () => {
         {/* Community Templates Section */}
         {communityTemplates.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="mb-6 text-2xl font-semibold text-[color:var(--lotus-text)]">
               Community templates
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -99,7 +99,7 @@ export function ChatModeSelector() {
       settings &&
       isFreeProBuildModeCombination(settings.selectedModel, newMode)
     ) {
-      toast.error("Dyad Free is not available in Build mode.");
+      toast.error("Lotus Free is not available in Build mode.");
       return;
     }
     void setChatMode(newMode).catch(() => {});
@@ -240,7 +240,7 @@ export function ChatModeSelector() {
               </div>
               <span className="text-xs text-muted-foreground ml-[22px]">
                 {buildUnavailableForDyadFree
-                  ? "Use Agent, Ask, or Plan with Dyad Free"
+                  ? "Use Agent, Ask, or Plan with Lotus Free"
                   : "Generate and edit code"}
               </span>
             </div>

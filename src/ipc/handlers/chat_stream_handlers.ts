@@ -686,7 +686,7 @@ ${componentSnippet}
         effectiveChatMode: selectedChatMode,
         chatModeFallbackReason,
       });
-      // Only Dyad Pro requests have request ids.
+      // Only gateway-backed requests have request ids.
       if (settings.enableDyadPro) {
         // Generate requestId early so it can be saved with the message
         dyadRequestId = uuidv4();
@@ -891,7 +891,7 @@ ${componentSnippet}
           }
         }
 
-        // For Dyad Pro + Deep Context, we set to 200 chat turns (+1)
+        // For gateway-backed deep context, we set to 200 chat turns (+1)
         // this is to enable more cache hits. Practically, users should
         // rarely go over this limit because they will hit the model's
         // context window limit.

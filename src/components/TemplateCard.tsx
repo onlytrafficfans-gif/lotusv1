@@ -15,6 +15,10 @@ interface TemplateCardProps {
   onCreateApp: () => void;
 }
 
+function formatLotusTemplateText(value: string) {
+  return value.replace(/\bDyad\b/g, "Lotus").replace(/\bdyad\b/g, "lotus");
+}
+
 export const TemplateCard: React.FC<TemplateCardProps> = ({
   template,
   isSelected,
@@ -23,6 +27,8 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   const { settings, updateSettings } = useSettings();
   const [showConsentDialog, setShowConsentDialog] = useState(false);
+  const displayTitle = formatLotusTemplateText(template.title);
+  const displayDescription = formatLotusTemplateText(template.description);
 
   const handleCardClick = () => {
     // If it's a community template and user hasn't accepted community code yet, show dialog
@@ -68,12 +74,12 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
       <div
         onClick={handleCardClick}
         className={`
-          bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden 
+          overflow-hidden rounded-2xl border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] shadow-sm
           transform transition-all duration-300 ease-in-out 
           cursor-pointer group relative
           ${
             isSelected
-              ? "ring-2 ring-blue-500 dark:ring-blue-400 shadow-xl"
+              ? "ring-2 ring-[color:var(--lotus-gold)] shadow-xl"
               : "hover:shadow-lg hover:-translate-y-1"
           }
         `}
@@ -81,13 +87,13 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         <div className="relative">
           <img
             src={template.imageUrl}
-            alt={template.title}
+            alt={displayTitle}
             className={`w-full h-52 object-cover transition-opacity duration-300 group-hover:opacity-80 ${
               isSelected ? "opacity-75" : ""
             }`}
           />
           {isSelected && (
-            <span className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-md shadow-lg">
+            <span className="absolute top-3 right-3 rounded-md bg-[color:var(--lotus-gold)] px-3 py-1.5 text-xs font-bold text-[color:var(--lotus-panel)] shadow-lg">
               Selected
             </span>
           )}
@@ -97,38 +103,38 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <h2
               className={`text-lg font-semibold ${
                 isSelected
-                  ? "text-blue-600 dark:text-blue-400"
-                  : "text-gray-900 dark:text-white"
+                  ? "text-[color:var(--lotus-gold-dark)]"
+                  : "text-[color:var(--lotus-text)]"
               }`}
             >
-              {template.title}
+              {displayTitle}
             </h2>
             {template.isOfficial && !template.isExperimental && (
               <span
                 className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                   isSelected
-                    ? "bg-blue-100 text-blue-700 dark:bg-blue-600 dark:text-blue-100"
-                    : "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-200"
+                    ? "bg-[color:var(--lotus-blush)] text-[color:var(--lotus-gold-dark)]"
+                    : "bg-[color:var(--lotus-blush)]/60 text-[color:var(--lotus-gold-dark)]"
                 }`}
               >
-                Official
+                Lotus
               </span>
             )}
             {template.isExperimental && (
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-200">
+              <span className="rounded-full bg-[color:var(--lotus-gold)]/15 px-2 py-0.5 text-xs font-semibold text-[color:var(--lotus-gold-dark)]">
                 Experimental
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 h-10 overflow-y-auto">
-            {template.description}
+          <p className="mb-3 h-10 overflow-y-auto text-sm text-[color:var(--lotus-muted)]">
+            {displayDescription}
           </p>
           {template.githubUrl && (
             <a
               className={`inline-flex items-center text-sm font-medium transition-colors duration-200 ${
                 isSelected
-                  ? "text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200"
-                  : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  ? "text-[color:var(--lotus-gold-dark)] hover:text-[color:var(--lotus-text)]"
+                  : "text-[color:var(--lotus-gold-dark)] hover:text-[color:var(--lotus-text)]"
               }`}
               onClick={handleGithubClick}
             >
@@ -144,7 +150,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             }}
             size="sm"
             className={cn(
-              "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold mt-2",
+              "mt-2 w-full bg-[color:var(--lotus-gold)] font-semibold text-[color:var(--lotus-panel)] hover:bg-[color:var(--lotus-gold-dark)]",
               settings?.selectedTemplateId !== template.id && "invisible",
             )}
           >

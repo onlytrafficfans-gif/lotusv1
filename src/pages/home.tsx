@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useAtom, useSetAtom } from "jotai";
+import { Blocks, Link2, Rocket, Sparkles } from "lucide-react";
 import { homeChatInputValueAtom } from "../atoms/chatAtoms";
 import { ipc } from "@/ipc/types";
 import { generateCuteAppName } from "@/lib/utils";
@@ -27,20 +28,34 @@ import type { FileAttachment } from "@/ipc/types";
 import type { ListedApp } from "@/ipc/types/app";
 import { NEON_TEMPLATE_IDS } from "@/shared/templates";
 import { neonTemplateHook } from "@/client_logic/template_hook";
-import {
-  ProBanner,
-  ManageDyadProButton,
-  SetupDyadProButton,
-} from "@/components/ProBanner";
+import { ProBanner } from "@/components/ProBanner";
 import { hasDyadProKey, getEffectiveDefaultChatMode } from "@/lib/schemas";
 import { useFreeAgentQuota } from "@/hooks/useFreeAgentQuota";
 import { useInitialChatMode } from "@/hooks/useInitialChatMode";
+// @ts-ignore
+import lotusMark from "../../assets/lotus-mark.png";
 
 // Adding an export for attachments
 export interface HomeSubmitOptions {
   attachments?: FileAttachment[];
   selectedApp?: ListedApp;
 }
+
+const LOTUS_STARTER_LABELS = [
+  "Recipe Finder & Meal Planner",
+  "Mood Journal & Tracker",
+  "Sign Up Form",
+];
+
+const getLotusStarterPrompts = () =>
+  LOTUS_STARTER_LABELS.map((label) => {
+    return (
+      INSPIRATION_PROMPTS.find((item) => item.label === label) ?? {
+        icon: <Sparkles className="h-5 w-5" />,
+        label,
+      }
+    );
+  });
 
 export default function HomePage() {
   const { t } = useTranslation("home");
@@ -76,7 +91,7 @@ export default function HomePage() {
 
   // Initialize random prompts
   useEffect(() => {
-    setRandomPrompts(getRandomPrompts());
+    setRandomPrompts(getLotusStarterPrompts());
   }, [getRandomPrompts]);
 
   // Redirect to app details page if appId is present. Use `replace` so the
@@ -215,82 +230,98 @@ export default function HomePage() {
 
   // Main Home Page Content
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex flex-col items-center justify-center max-w-3xl w-full m-auto p-8 relative">
-        <div className="fixed top-16 right-8 z-50">
-          {settings && hasDyadProKey(settings) ? (
-            <ManageDyadProButton className="mt-0 w-auto h-9 px-3 text-base shadow-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800" />
-          ) : (
-            <SetupDyadProButton />
-          )}
+    <div className="flex min-h-full w-full flex-col bg-[color:var(--lotus-bg)]">
+      <div className="flex w-full justify-end px-6 pt-5">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => navigate({ to: "/library" })}
+            className="flex h-10 items-center gap-2 rounded-xl border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] px-4 text-sm font-medium text-[color:var(--lotus-text)] shadow-sm transition-colors hover:border-[color:var(--lotus-gold)] hover:text-[color:var(--lotus-gold-dark)]"
+          >
+            <Blocks className="h-4 w-4" />
+            Components
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setInputValue("Help me plan integrations for this app.")
+            }
+            className="flex h-10 items-center gap-2 rounded-xl border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] px-4 text-sm font-medium text-[color:var(--lotus-text)] shadow-sm transition-colors hover:border-[color:var(--lotus-gold)] hover:text-[color:var(--lotus-gold-dark)]"
+          >
+            <Link2 className="h-4 w-4" />
+            Integrations
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setInputValue("Help me prepare this app for publishing.")
+            }
+            className="flex h-10 items-center gap-2 rounded-xl bg-[color:var(--lotus-gold)] px-4 text-sm font-semibold text-[color:var(--lotus-panel)] shadow-sm transition-colors hover:bg-[color:var(--lotus-gold-dark)]"
+          >
+            <Rocket className="h-4 w-4" />
+            Publish
+          </button>
         </div>
-        <SetupBanner />
+      </div>
 
-        <div className="w-full">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <ImportAppButton className="px-0 pb-0 flex-none" />
+      <div className="flex flex-1 flex-col items-center justify-center px-8 pb-10 pt-4">
+        <div className="w-full max-w-3xl">
+          <div className="mx-auto mb-7 flex max-w-xl flex-col items-center text-center">
+            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] shadow-[0_18px_50px_rgba(93,64,38,0.08)]">
+              <img
+                src={lotusMark}
+                alt="Lotus"
+                className="h-14 w-14 object-contain"
+              />
+            </div>
+            <h1 className="text-5xl font-semibold tracking-normal text-[color:var(--lotus-text)]">
+              Build a new app
+            </h1>
+            <p className="mt-3 text-base text-[color:var(--lotus-muted)]">
+              Describe what you want Lotus to create
+            </p>
           </div>
-          <HomeChatInput onSubmit={handleSubmit} />
 
-          <div className="flex flex-col gap-4 mt-2">
-            <div className="flex flex-wrap gap-4 justify-center">
-              {randomPrompts.map((item, index) => (
+          <SetupBanner />
+
+          <div className="rounded-[2rem] border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)]/70 p-4 shadow-[0_24px_80px_rgba(93,64,38,0.07)]">
+            <div className="mb-2 flex items-center justify-center">
+              <ImportAppButton className="px-0 pb-0 flex-none" />
+            </div>
+            <HomeChatInput onSubmit={handleSubmit} />
+
+            <div className="flex flex-col gap-4 px-2 pb-2">
+              <div className="flex flex-wrap justify-center gap-3">
+                {randomPrompts.map((item, index) => (
+                  <button
+                    type="button"
+                    key={index}
+                    onClick={() =>
+                      setInputValue(t("buildMeA", { label: item.label }))
+                    }
+                    className="flex items-center gap-2 rounded-full border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] px-4 py-2 text-sm font-medium text-[color:var(--lotus-text)] shadow-sm transition-all duration-200 hover:border-[color:var(--lotus-gold)] hover:bg-white hover:text-[color:var(--lotus-gold-dark)] active:scale-[0.98]"
+                  >
+                    <span className="text-[color:var(--lotus-gold-dark)]">
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+
                 <button
                   type="button"
-                  key={index}
-                  onClick={() =>
-                    setInputValue(t("buildMeA", { label: item.label }))
-                  }
-                  className="flex items-center gap-3 px-4 py-2 rounded-xl border border-gray-200
-                           bg-white/50 backdrop-blur-sm
-                           transition-all duration-200
-                           hover:bg-white hover:shadow-md hover:border-gray-300
-                           active:scale-[0.98]
-                           dark:bg-gray-800/50 dark:border-gray-700
-                           dark:hover:bg-gray-800 dark:hover:border-gray-600"
+                  onClick={() => setRandomPrompts(getRandomPrompts())}
+                  className="flex items-center gap-2 rounded-full border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] px-4 py-2 text-sm font-medium text-[color:var(--lotus-muted)] shadow-sm transition-all duration-200 hover:border-[color:var(--lotus-gold)] hover:bg-white hover:text-[color:var(--lotus-gold-dark)] active:scale-[0.98]"
                 >
-                  <span className="text-gray-700 dark:text-gray-300">
-                    {item.icon}
-                  </span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {item.label}
-                  </span>
+                  <Sparkles className="h-4 w-4" />
+                  <span>{t("moreIdeas")}</span>
                 </button>
-              ))}
+              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setRandomPrompts(getRandomPrompts())}
-              className="self-center flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200
-                       bg-white/50 backdrop-blur-sm
-                       transition-all duration-200
-                       hover:bg-white hover:shadow-md hover:border-gray-300
-                       active:scale-[0.98]
-                       dark:bg-gray-800/50 dark:border-gray-700
-                       dark:hover:bg-gray-800 dark:hover:border-gray-600"
-            >
-              <svg
-                className="w-5 h-5 text-gray-700 dark:text-gray-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {t("moreIdeas")}
-              </span>
-            </button>
+            <ProBanner />
           </div>
-          <ProBanner />
+          <PrivacyBanner />
         </div>
-        <PrivacyBanner />
       </div>
       <FeaturedAppShowcase />
     </div>

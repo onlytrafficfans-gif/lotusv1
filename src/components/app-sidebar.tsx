@@ -15,6 +15,8 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { dropdownOpenAtom } from "@/atoms/uiAtoms";
 import { selectedAppIdAtom } from "@/atoms/appAtoms";
 import { selectedChatIdAtom } from "@/atoms/chatAtoms";
+// @ts-ignore
+import lotusMark from "../../assets/lotus-mark.png";
 
 import {
   Sidebar,
@@ -89,11 +91,11 @@ function AppSidebarRailButton({
   onMouseEnter?: () => void;
 }) {
   const className = cn(
-    "group/rail-button relative mb-1 flex h-10 items-center justify-center rounded-xl outline-none transition-[width,background-color] duration-200 ease-linear focus-visible:ring-2 focus-visible:ring-sidebar-ring",
+    "group/rail-button relative mb-1 flex h-10 items-center justify-center rounded-xl outline-none transition-[width,background-color,box-shadow] duration-200 ease-linear focus-visible:ring-2 focus-visible:ring-sidebar-ring",
     isExpanded ? "w-14" : "w-10",
     isActive
-      ? "bg-primary/15"
-      : "hover:bg-sidebar-accent active:bg-sidebar-accent",
+      ? "bg-[color:var(--lotus-panel)] text-[color:var(--lotus-gold-dark)] shadow-sm ring-1 ring-[color:var(--lotus-border)]"
+      : "hover:bg-sidebar-accent/80 active:bg-sidebar-accent",
   );
   const content = (
     <>
@@ -103,13 +105,20 @@ function AppSidebarRailButton({
           isExpanded ? "top-[42%]" : "top-1/2",
         )}
       >
-        <Icon className={cn("size-5", isActive && "text-primary")} />
+        <Icon
+          className={cn(
+            "size-5",
+            isActive && "text-[color:var(--lotus-gold-dark)]",
+          )}
+        />
       </span>
       <span
         className={cn(
           "pointer-events-none absolute bottom-0.5 left-1/2 max-w-[calc(100%-0.5rem)] -translate-x-1/2 truncate text-[10px] leading-3 transition-[opacity,transform] duration-200 ease-linear",
           isExpanded ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
-          isActive ? "font-medium text-primary" : "text-sidebar-foreground/80",
+          isActive
+            ? "font-medium text-[color:var(--lotus-gold-dark)]"
+            : "text-sidebar-foreground/70",
         )}
       >
         {label}
@@ -193,7 +202,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="shadow-lg"
+      className="border-r border-[color:var(--lotus-border)] bg-sidebar/95 shadow-[8px_0_30px_rgba(90,62,38,0.06)]"
       onMouseLeave={() => {
         if (!isDropdownOpen) {
           setHoverState("clear-hover");
@@ -201,16 +210,32 @@ export function AppSidebar() {
       }}
     >
       <SidebarContent className="overflow-hidden">
-        <div className="flex mt-[calc(var(--layout-title-bar-offset)+0.25rem)]">
+        <div className="flex mt-[calc(var(--layout-title-bar-offset)+0.5rem)]">
           {/* Left Column: Icon rail */}
           <div
-            className={`px-1 transition-[width] duration-200 ease-linear ${
+            className={`px-1.5 transition-[width] duration-200 ease-linear ${
               state === "expanded" ? "w-16" : "w-12"
             }`}
           >
+            <Link
+              to="/"
+              aria-label="Lotus home"
+              className={cn(
+                "mb-2 flex h-12 items-center justify-center rounded-2xl transition-[width,background-color,box-shadow] duration-200 no-app-region-drag",
+                state === "expanded" ? "w-14" : "w-10",
+                "bg-[color:var(--lotus-panel)] shadow-sm ring-1 ring-[color:var(--lotus-border)] hover:bg-white",
+              )}
+              onMouseEnter={() => setHoverState("clear-hover")}
+            >
+              <img
+                src={lotusMark}
+                alt="Lotus"
+                className="size-8 object-contain"
+              />
+            </Link>
             <SidebarTrigger
               className={cn(
-                "transition-[width,background-color,color] duration-200 ease-linear focus-visible:ring-0",
+                "transition-[width,background-color,color,box-shadow] duration-200 ease-linear focus-visible:ring-0 hover:bg-[color:var(--lotus-panel)] hover:text-[color:var(--lotus-gold-dark)]",
                 state === "expanded" ? "w-14" : "w-10",
               )}
               onMouseEnter={() => {
@@ -223,7 +248,7 @@ export function AppSidebar() {
             />
           </div>
           {/* Right Column: Contextual sub-list (only visible when expanded) */}
-          <div className="relative h-[calc(100vh-112px)] w-[224px] overflow-hidden border-l border-sidebar-border">
+          <div className="relative h-[calc(100vh-112px)] w-[224px] overflow-hidden border-l border-sidebar-border/80 bg-[color:var(--lotus-panel)]/40">
             <AnimatePresence initial={false}>
               {selectedItem === "Apps" && !showSelectedAppChats && (
                 <motion.div

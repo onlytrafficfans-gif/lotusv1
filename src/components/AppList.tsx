@@ -91,16 +91,24 @@ export function AppList({ show }: { show?: boolean }) {
   return (
     <>
       <SidebarGroup
-        className="overflow-y-auto h-[calc(100vh-112px)]"
+        className="h-[calc(100vh-112px)] overflow-y-auto px-2 py-2"
         data-testid="app-list-container"
       >
         <SidebarGroupContent>
           <div className="flex flex-col space-y-3">
-            <div className="mx-2 flex items-center gap-2">
+            <div className="px-2 pb-1">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--lotus-muted)]">
+                Workspace
+              </p>
+              <h2 className="mt-1 text-sm font-semibold text-[color:var(--lotus-text)]">
+                Your apps
+              </h2>
+            </div>
+            <div className="flex items-center gap-2">
               <Button
                 onClick={handleNewApp}
                 variant="outline"
-                className="flex flex-1 items-center justify-start gap-2 py-3"
+                className="flex flex-1 items-center justify-start gap-2 rounded-xl border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] py-3 text-[color:var(--lotus-text)] shadow-sm hover:border-[color:var(--lotus-gold)] hover:bg-white hover:text-[color:var(--lotus-gold-dark)]"
               >
                 <PlusCircle size={16} />
                 <span>New App</span>
@@ -108,7 +116,7 @@ export function AppList({ show }: { show?: boolean }) {
               <Button
                 onClick={() => setIsSearchDialogOpen(!isSearchDialogOpen)}
                 variant="outline"
-                className="flex shrink-0 items-center justify-center py-3 px-3"
+                className="flex shrink-0 items-center justify-center rounded-xl border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] px-3 py-3 text-[color:var(--lotus-muted)] shadow-sm hover:border-[color:var(--lotus-gold)] hover:bg-white hover:text-[color:var(--lotus-gold-dark)]"
                 title="Search Apps"
                 aria-label="Search Apps"
                 data-testid="search-apps-button"
@@ -118,7 +126,7 @@ export function AppList({ show }: { show?: boolean }) {
             </div>
 
             {loading ? (
-              <div className="py-2 px-4 text-sm text-gray-500">
+              <div className="rounded-xl border border-dashed border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)]/70 px-4 py-5 text-sm text-[color:var(--lotus-muted)]">
                 Loading apps...
               </div>
             ) : error ? (
@@ -126,16 +134,17 @@ export function AppList({ show }: { show?: boolean }) {
                 Error loading apps
               </div>
             ) : apps.length === 0 ? (
-              <div className="py-2 px-4 text-sm text-gray-500">
-                No apps found
+              <div className="rounded-xl border border-dashed border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)]/70 px-4 py-5 text-sm text-[color:var(--lotus-muted)]">
+                No apps found. Start with New App or describe one in the
+                builder.
               </div>
             ) : (
               <SidebarMenu className="space-y-1" data-testid="app-list">
-                <div className="px-3 pb-1 text-xs font-medium text-muted-foreground">
+                <div className="px-2 pb-1 text-xs font-medium text-[color:var(--lotus-muted)]">
                   Favorite apps
                 </div>
                 {favoriteApps.length === 0 ? (
-                  <div className="mx-2 mb-2 flex items-center gap-2 rounded-md border border-dashed border-sidebar-border px-3 py-3 text-xs text-muted-foreground">
+                  <div className="mb-2 flex items-center gap-2 rounded-xl border border-dashed border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)]/50 px-3 py-3 text-xs text-[color:var(--lotus-muted)]">
                     <Star size={14} className="shrink-0" />
                     <span>Star an app to pin it here</span>
                   </div>
@@ -154,7 +163,7 @@ export function AppList({ show }: { show?: boolean }) {
                     data-testid="sidebar-collections-section"
                     className="mt-2"
                   >
-                    <div className="px-3 pb-1 text-xs font-medium text-muted-foreground">
+                    <div className="px-2 pb-1 text-xs font-medium text-[color:var(--lotus-muted)]">
                       Collections
                     </div>
                     <Accordion multiple className="px-1">
@@ -168,7 +177,7 @@ export function AppList({ show }: { show?: boolean }) {
                             className="border-b-0"
                             data-testid={`sidebar-collection-${collection.id}`}
                           >
-                            <AccordionTrigger className="py-2 px-2 hover:no-underline hover:bg-sidebar-accent/60 rounded-md">
+                            <AccordionTrigger className="rounded-xl px-2 py-2 hover:bg-sidebar-accent/60 hover:no-underline">
                               <div className="flex min-w-0 flex-1 items-center gap-2">
                                 <Folder
                                   size={14}
@@ -204,7 +213,7 @@ export function AppList({ show }: { show?: boolean }) {
                     </Accordion>
                   </div>
                 )}
-                <div className="px-3 pb-1 pt-2 text-xs font-medium text-muted-foreground">
+                <div className="px-2 pb-1 pt-2 text-xs font-medium text-[color:var(--lotus-muted)]">
                   Other apps
                 </div>
                 {nonFavoriteApps.map((app) => (

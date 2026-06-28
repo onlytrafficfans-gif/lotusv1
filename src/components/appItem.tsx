@@ -13,14 +13,14 @@ type AppItemProps = {
 
 export function AppItem({ app, handleAppClick, selectedAppId }: AppItemProps) {
   return (
-    <SidebarMenuItem className="mb-1 relative ">
+    <SidebarMenuItem className="relative mb-1">
       <div className="flex w-[206px] items-center" title={app.name}>
         <Button
           variant="ghost"
           onClick={() => handleAppClick(app.id)}
-          className={`flex w-full justify-start gap-2 py-3 text-left hover:bg-sidebar-accent/80 ${
+          className={`flex w-full justify-start gap-2 rounded-xl px-2 py-3 text-left text-[color:var(--lotus-text)] transition-[background-color,box-shadow,color] hover:bg-[color:var(--lotus-panel)] hover:shadow-sm ${
             selectedAppId === app.id
-              ? "bg-sidebar-accent text-sidebar-accent-foreground"
+              ? "bg-[color:var(--lotus-panel)] text-[color:var(--lotus-gold-dark)] shadow-sm ring-1 ring-[color:var(--lotus-border)]"
               : ""
           }`}
           data-testid={`app-list-item-${app.name}`}
@@ -32,11 +32,11 @@ export function AppItem({ app, handleAppClick, selectedAppId }: AppItemProps) {
               {app.isFavorite && (
                 <Star
                   size={12}
-                  className="fill-[#6c55dc] text-[#6c55dc] flex-shrink-0"
+                  className="flex-shrink-0 fill-[color:var(--lotus-gold)] text-[color:var(--lotus-gold)]"
                 />
               )}
             </div>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-[color:var(--lotus-muted)]">
               {formatDistanceToNow(new Date(app.createdAt), {
                 addSuffix: true,
               })}

@@ -1778,8 +1778,8 @@ function getErrorResponseBody(error: unknown, depth = 0): string | undefined {
 const FREE_MODEL_QUOTA_MARKERS = [
   "dyad_free_model_quota_exceeded",
   "FREE_MODEL_QUOTA_EXCEEDED",
-  "Dyad Free has reached its daily limit.",
-  "Dyad Free limit",
+  "Lotus Free has reached its daily limit.",
+  "Lotus Free limit",
 ];
 
 function getErrorMessageWithDetails(error: unknown): string {

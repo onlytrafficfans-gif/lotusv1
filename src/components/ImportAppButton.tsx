@@ -14,6 +14,7 @@ export function ImportAppButton({ className }: { className?: string }) {
           variant="default"
           size="default"
           onClick={() => setIsDialogOpen(true)}
+          className="rounded-xl bg-[color:var(--lotus-gold)] px-4 text-[color:var(--lotus-panel)] shadow-sm hover:bg-[color:var(--lotus-gold-dark)]"
         >
           <Upload className="mr-2 h-4 w-4" />
           Import App

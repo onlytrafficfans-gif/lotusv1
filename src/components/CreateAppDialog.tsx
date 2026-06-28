@@ -26,6 +26,10 @@ interface CreateAppDialogProps {
   template: Template | undefined;
 }
 
+function formatLotusTemplateText(value: string | undefined) {
+  return value?.replace(/\bDyad\b/g, "Lotus").replace(/\bdyad\b/g, "lotus");
+}
+
 export function CreateAppDialog({
   open,
   onOpenChange,
@@ -73,6 +77,7 @@ export function CreateAppDialog({
   const isNameValid = appName.trim().length > 0;
   const nameExists = nameCheckResult?.exists;
   const canSubmit = isNameValid && !nameExists && !isSubmitting;
+  const templateTitle = formatLotusTemplateText(template?.title);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -80,7 +85,7 @@ export function CreateAppDialog({
         <DialogHeader>
           <DialogTitle>{t("home:createNewApp")}</DialogTitle>
           <DialogDescription>
-            {t("home:createAppUsingTemplate", { template: template?.title })}
+            {t("home:createAppUsingTemplate", { template: templateTitle })}
           </DialogDescription>
         </DialogHeader>
 
@@ -116,7 +121,7 @@ export function CreateAppDialog({
             <Button
               type="submit"
               disabled={!canSubmit}
-              className="bg-indigo-600 hover:bg-indigo-700"
+              className="bg-[color:var(--lotus-gold)] text-[color:var(--lotus-panel)] hover:bg-[color:var(--lotus-gold-dark)]"
             >
               {isSubmitting && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

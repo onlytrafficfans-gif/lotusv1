@@ -35,7 +35,7 @@ export const TitleBar = () => {
   };
 
   return (
-    <div className="@container z-11 w-full h-[calc(var(--layout-title-bar-offset)+1px)] pt-1 bg-(--sidebar) absolute top-0 left-0 app-region-drag flex items-center">
+    <div className="@container z-11 w-full h-[calc(var(--layout-title-bar-offset)+1px)] pt-1 bg-[color:var(--lotus-bg)] absolute top-0 left-0 app-region-drag flex items-center border-b border-[color:var(--lotus-border)]/70">
       {/*
        * Left region matches the sidebar's expanded width so chat tabs always
        * start past the sidebar panel's right edge. Without this, an active
@@ -59,7 +59,7 @@ export const TitleBar = () => {
                 size="sm"
                 disabled={!selectedApp}
                 className={cn(
-                  "no-app-region-drag ml-2 h-7 px-1.5 gap-1.5 flex items-center font-medium text-xs",
+                  "no-app-region-drag ml-2 h-7 px-1.5 gap-1.5 flex items-center rounded-xl border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)]/80 font-medium text-xs text-[color:var(--lotus-text)] shadow-sm hover:bg-white hover:text-[color:var(--lotus-gold-dark)]",
                   selectedApp
                     ? "cursor-pointer"
                     : "opacity-70 cursor-default disabled:opacity-70",
@@ -104,7 +104,7 @@ function WindowsControls() {
   return (
     <div className="ml-auto flex no-app-region-drag -mt-1 h-[var(--layout-title-bar-offset)] self-start">
       <button
-        className="w-12 h-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        className="w-12 h-full flex items-center justify-center hover:bg-[color:var(--lotus-panel)] transition-colors"
         onClick={minimizeWindow}
         aria-label="Minimize"
       >
@@ -123,7 +123,7 @@ function WindowsControls() {
         </svg>
       </button>
       <button
-        className="w-12 h-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        className="w-12 h-full flex items-center justify-center hover:bg-[color:var(--lotus-panel)] transition-colors"
         onClick={maximizeWindow}
         aria-label="Maximize"
       >

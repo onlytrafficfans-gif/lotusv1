@@ -80,14 +80,14 @@ export async function getModelClient(
 
   if (isFreeProModel(model) && (!settings.enableDyadPro || !dyadApiKey)) {
     throw new DyadError(
-      "Dyad Free requires an active Dyad Pro API key. Switch to another model or enable Dyad Pro.",
+      "Lotus free models require an active built-in gateway key. Switch to another model or configure the gateway.",
       DyadErrorKind.Auth,
     );
   }
 
-  // Handle Dyad Pro override
+  // Handle built-in gateway override.
   if (dyadApiKey && settings.enableDyadPro) {
-    // Check if the selected provider supports Dyad Pro (has a gateway prefix) OR
+    // Check if the selected provider supports the gateway prefix OR
     // we're using local engine.
     // IMPORTANT: some providers like OpenAI have an empty string gateway prefix,
     // so we do a nullish and not a truthy check here.
@@ -109,11 +109,11 @@ export async function getModelClient(
       });
 
       logger.info(
-        `\x1b[1;97;44m Using Dyad Pro API key for model: ${model.name} \x1b[0m`,
+        `\x1b[1;97;44m Using Lotus gateway API key for model: ${model.name} \x1b[0m`,
       );
 
       logger.info(
-        `\x1b[1;30;42m Using Dyad Pro engine: ${dyadEngineUrl ?? "<prod>"} \x1b[0m`,
+        `\x1b[1;30;42m Using Lotus gateway engine: ${dyadEngineUrl ?? "<prod>"} \x1b[0m`,
       );
 
       // Do not use free variant (for openrouter).
@@ -132,7 +132,7 @@ export async function getModelClient(
       };
     } else {
       logger.warn(
-        `Dyad Pro enabled, but provider ${model.provider} does not have a gateway prefix defined. Falling back to direct provider connection.`,
+        `Lotus gateway enabled, but provider ${model.provider} does not have a gateway prefix defined. Falling back to direct provider connection.`,
       );
       // Fall through to regular provider logic if gateway prefix is missing
     }

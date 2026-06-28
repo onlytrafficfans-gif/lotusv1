@@ -81,20 +81,6 @@ export const DIFFERENT_MODEL_TIP: MessageConfig = {
   ],
 };
 
-export const REDDIT_TIP: MessageConfig = {
-  spans: [
-    {
-      type: "text",
-      content: "Join 600+ builders in the ",
-    },
-    {
-      type: "link",
-      content: "Dyad subreddit",
-      url: "https://www.reddit.com/r/dyadbuilders/",
-    },
-  ],
-};
-
 export const REPORT_A_BUG_TIP: MessageConfig = {
   spans: [
     {
@@ -123,7 +109,7 @@ export const BUILD_A_BIBLE_APP_TIP: MessageConfig = {
     },
     {
       type: "text",
-      content: " the creator of Dyad build a Bible app step-by-step",
+      content: " the creator of Lotus build a Bible app step-by-step",
     },
   ],
 };
@@ -166,49 +152,17 @@ export const NEW_CHAT_TIP: MessageConfig = {
   ],
 };
 
-// Want to know what's next? Checkout our roadmap https://www.dyad.sh/docs/roadmap
-export const ROADMAP_TIP: MessageConfig = {
-  spans: [
-    {
-      type: "text",
-      content: "Want to know what's next? Check out our ",
-    },
-    {
-      type: "link",
-      content: "roadmap",
-      url: "https://www.dyad.sh/docs/roadmap",
-    },
-  ],
-};
-
-// Like Dyad? Star it on GitHub https://github.com/dyad-sh/dyad/
-export const GITHUB_TIP: MessageConfig = {
-  spans: [
-    {
-      type: "text",
-      content: "Like Dyad? Star it on ",
-    },
-    {
-      type: "link",
-      content: "GitHub",
-      url: "https://github.com/dyad-sh/dyad",
-    },
-  ],
-};
 // Array of all available messages for rotation
 const ALL_MESSAGES = [
   TURBO_EDITS_PROMO_MESSAGE,
   SMART_CONTEXT_PROMO_MESSAGE,
   DIFFERENT_MODEL_TIP,
-  REDDIT_TIP,
   REPORT_A_BUG_TIP,
   UPLOAD_CHAT_TIP,
   BUILD_A_BIBLE_APP_TIP,
   DEBUGGING_TIPS_TIP,
   AI_RULES_TIP,
   NEW_CHAT_TIP,
-  ROADMAP_TIP,
-  GITHUB_TIP,
 ];
 
 // Main PromoMessage component using the modular system

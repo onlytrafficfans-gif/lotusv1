@@ -187,12 +187,12 @@ const config: ForgeConfig = {
         ? {
             windowsSign,
             iconUrl:
-              "https://raw.githubusercontent.com/dyad-sh/dyad/main/assets/icon/logo.ico",
+              "https://raw.githubusercontent.com/bombaystudiosx-dev/dyad/codex/customize-dyad/assets/icon/lotus.ico",
             setupIcon: "./assets/icon/lotus.ico",
           }
         : {
             iconUrl:
-              "https://raw.githubusercontent.com/dyad-sh/dyad/main/assets/icon/logo.ico",
+              "https://raw.githubusercontent.com/bombaystudiosx-dev/dyad/codex/customize-dyad/assets/icon/lotus.ico",
             setupIcon: "./assets/icon/lotus.ico",
           },
     ),

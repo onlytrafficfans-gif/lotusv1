@@ -47,7 +47,7 @@ export function registerImageGenerationHandlers() {
 
       if (!apiKey) {
         throw new DyadError(
-          "Dyad Pro API key is required for image generation",
+          "A Lotus gateway API key is required for image generation",
           DyadErrorKind.Auth,
         );
       }

@@ -6,7 +6,6 @@ import {
   Mic,
   MicOff,
   Loader2,
-  Lock,
 } from "lucide-react";
 import {
   Tooltip,
@@ -35,7 +34,6 @@ import { useLoadApps } from "@/hooks/useLoadApps";
 import { AppSearchDialog } from "../AppSearchDialog";
 import { useVoiceToText } from "@/hooks/useVoiceToText";
 import { useUserBudgetInfo } from "@/hooks/useUserBudgetInfo";
-import { ipc } from "@/ipc/types";
 import { useCallback, useEffect } from "react";
 import { showError } from "@/lib/toast";
 
@@ -85,7 +83,7 @@ export function HomeChatInput({
   ]);
   const placeholder = selectedApp
     ? `Send a message to ${selectedApp.name}...`
-    : `Ask Dyad to build ${typingText ?? ""}`;
+    : `Describe your app idea${typingText ? `, like ${typingText}` : ""}`;
 
   // Use the attachments hook
   const {
@@ -146,13 +144,14 @@ export function HomeChatInput({
 
   return (
     <>
-      <div className="p-4" data-testid="home-chat-input-container">
+      <div className="px-0 py-3" data-testid="home-chat-input-container">
         <div
           className={cn(
-            "relative flex flex-col border border-border rounded-2xl bg-(--background-lighter) transition-colors duration-200",
-            "hover:border-primary/30",
-            "focus-within:border-primary/30 focus-within:ring-1 focus-within:ring-primary/20",
-            isDraggingOver && "ring-2 ring-blue-500 border-blue-500",
+            "relative flex flex-col rounded-3xl border border-[color:var(--lotus-border)] bg-[color:var(--lotus-panel)] shadow-[0_20px_60px_rgba(93,64,38,0.08)] transition-colors duration-200",
+            "hover:border-[color:var(--lotus-gold)]/60",
+            "focus-within:border-[color:var(--lotus-gold)] focus-within:ring-2 focus-within:ring-[color:var(--lotus-gold)]/15",
+            isDraggingOver &&
+              "border-[color:var(--lotus-rose)] ring-2 ring-[color:var(--lotus-rose)]/30",
           )}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -232,18 +231,15 @@ export function HomeChatInput({
                 <TooltipTrigger
                   render={
                     <button
-                      onClick={() =>
-                        ipc.system.openExternalUrl("https://dyad.sh/pro")
-                      }
-                      aria-label="Voice to text (Pro)"
-                      className="px-2 py-2 mb-0.5 text-muted-foreground hover:text-primary rounded-lg transition-colors duration-150 cursor-pointer relative"
+                      aria-label="Voice to text unavailable"
+                      disabled
+                      className="relative mb-0.5 cursor-not-allowed rounded-lg px-2 py-2 text-muted-foreground/40 transition-colors duration-150"
                     />
                   }
                 >
                   <Mic size={20} />
-                  <Lock size={10} className="absolute -top-0.5 -right-0.5" />
                 </TooltipTrigger>
-                <TooltipContent>Voice to text (requires Pro)</TooltipContent>
+                <TooltipContent>Voice to text unavailable</TooltipContent>
               </Tooltip>
             )}
 
@@ -271,7 +267,7 @@ export function HomeChatInput({
                       onClick={handleCustomSubmit}
                       disabled={!inputValue.trim() && attachments.length === 0}
                       aria-label="Send message"
-                      className="px-2 py-2 mb-0.5 mr-1 text-muted-foreground hover:text-primary rounded-lg transition-colors duration-150 disabled:opacity-30 disabled:hover:text-muted-foreground cursor-pointer disabled:cursor-default"
+                      className="mb-1 mr-2 rounded-xl bg-[color:var(--lotus-gold)] px-3 py-2 text-[color:var(--lotus-panel)] shadow-sm transition-colors duration-150 hover:bg-[color:var(--lotus-gold-dark)] disabled:cursor-default disabled:bg-muted disabled:text-muted-foreground"
                     />
                   }
                 >
@@ -281,7 +277,7 @@ export function HomeChatInput({
               </Tooltip>
             )}
           </div>
-          <div className="px-2 flex items-center justify-between pb-0.5 pt-0.5">
+          <div className="flex items-center justify-between border-t border-[color:var(--lotus-border)]/70 px-3 pb-2 pt-2">
             <div className="flex items-center">
               <ChatInputControls showContextFilesPicker={false} />
               {settings?.enableSelectAppFromHomeChatInput && (
@@ -291,10 +287,10 @@ export function HomeChatInput({
                       <button
                         onClick={() => setAppSearchOpen(true)}
                         className={cn(
-                          "cursor-pointer px-2 py-1 ml-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1",
+                          "ml-1.5 flex cursor-pointer items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition-colors",
                           selectedApp
-                            ? "bg-primary/10 text-primary hover:bg-primary/15"
-                            : "text-foreground/80 hover:text-foreground hover:bg-muted/60",
+                            ? "bg-[color:var(--lotus-blush)]/60 text-[color:var(--lotus-gold-dark)] hover:bg-[color:var(--lotus-blush)]"
+                            : "text-[color:var(--lotus-muted)] hover:bg-muted/60 hover:text-foreground",
                         )}
                         data-testid="home-app-selector"
                       />

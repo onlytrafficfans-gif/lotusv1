@@ -15,7 +15,6 @@ import {
   ChevronsUpDown,
   ChevronsDownUp,
   SendHorizontalIcon,
-  Lock,
   Mic,
   MicOff,
 } from "lucide-react";
@@ -908,14 +907,11 @@ export function ChatInput({ chatId }: { chatId?: number }) {
                   <TooltipTrigger
                     render={
                       <button
-                        onClick={() => {
-                          ipc.system.openExternalUrl("https://dyad.sh/pro");
-                        }}
-                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                        disabled
+                        className="flex cursor-not-allowed items-center gap-2 text-sm text-muted-foreground"
                       />
                     }
                   >
-                    <Lock size={16} />
                     <span className="font-medium">{t("visualEditor")}</span>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -1006,19 +1002,19 @@ export function ChatInput({ chatId }: { chatId?: number }) {
                 <TooltipTrigger
                   render={
                     <button
-                      onClick={() =>
-                        ipc.system.openExternalUrl("https://dyad.sh/pro")
-                      }
-                      aria-label={t("voiceToTextPro", "Voice to text (Pro)")}
-                      className="px-2 py-2 mb-0.5 text-muted-foreground hover:text-primary rounded-lg transition-colors duration-150 cursor-pointer relative"
+                      aria-label={t(
+                        "voiceToTextUnavailable",
+                        "Voice to text unavailable",
+                      )}
+                      disabled
+                      className="relative mb-0.5 cursor-not-allowed rounded-lg px-2 py-2 text-muted-foreground/40 transition-colors duration-150"
                     />
                   }
                 >
                   <Mic size={20} />
-                  <Lock size={10} className="absolute -top-0.5 -right-0.5" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  {t("voiceToTextRequiresPro", "Voice to text (requires Pro)")}
+                  {t("voiceToTextUnavailable", "Voice to text unavailable")}
                 </TooltipContent>
               </Tooltip>
             )}
