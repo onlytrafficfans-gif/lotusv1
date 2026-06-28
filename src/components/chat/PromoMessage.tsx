@@ -55,19 +55,18 @@ export function Message({ spans }: MessageConfig) {
 // Predefined message configurations
 export const TURBO_EDITS_PROMO_MESSAGE: MessageConfig = {
   spans: [
-    { type: "text", content: "Tired of waiting on AI?" },
-    { type: "link", content: " Get Dyad Pro", url: "https://dyad.sh/pro#ai" },
-    { type: "text", content: " for faster edits with Turbo Edits." },
+    {
+      type: "text",
+      content: "Tired of waiting on AI? Try a faster configured model.",
+    },
   ],
 };
 
 export const SMART_CONTEXT_PROMO_MESSAGE: MessageConfig = {
   spans: [
-    { type: "text", content: "Save up to 3x on AI costs with " },
     {
-      type: "link",
-      content: "Dyad Pro's Smart Context",
-      url: "https://dyad.sh/pro#ai",
+      type: "text",
+      content: "Keep context focused to reduce model cost on large codebases.",
     },
   ],
 };

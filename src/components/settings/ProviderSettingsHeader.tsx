@@ -27,16 +27,10 @@ interface ProviderSettingsHeaderProps {
 
 function getKeyButtonText({
   isConfigured,
-  isDyad,
 }: {
   isConfigured: boolean;
   isDyad: boolean;
 }) {
-  if (isDyad) {
-    return isConfigured
-      ? "Manage Dyad Pro Subscription"
-      : "Setup Dyad Pro Subscription";
-  }
   return isConfigured ? "Manage API Keys" : "Setup API Key";
 }
 

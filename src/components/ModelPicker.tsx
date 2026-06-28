@@ -47,11 +47,6 @@ const SCROLL_AREA_CLASS = "max-h-100 overflow-y-auto scrollbar-on-hover";
 const PILL_CLASS =
   "text-[10px] leading-none px-1.5 py-1 rounded-full font-medium";
 
-const PRO_PILL_CLASS = cn(
-  PILL_CLASS,
-  "bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-[length:200%_100%] animate-[shimmer_5s_ease-in-out_infinite] text-white",
-);
-
 type Tier = { label: string; caption: string; min: number; max: number };
 const PRO_PRICE_TIERS: Tier[] = [
   {
@@ -237,8 +232,7 @@ export function ModelPicker() {
   const flatProModelEntries = primaryProviderEntries
     .flatMap(([providerId, models], providerIndex) =>
       models.flatMap((model, modelIndex) => {
-        // Don't show free models if Dyad Pro is enabled because we will use
-        // the paid models in the Dyad Pro backend instead.
+        // Don't duplicate free variants when the built-in gateway is active.
         if (
           model.apiName.endsWith(":free") ||
           model.apiName.endsWith("/free")
@@ -441,9 +435,6 @@ export function ModelPicker() {
           <div className="flex flex-col items-start w-full">
             <div className="flex items-center gap-2">
               <span>{providerDisplayName}</span>
-              {provider?.type === "cloud" &&
-                !provider?.secondary &&
-                dyadProEnabled && <span className={PRO_PILL_CLASS}>Pro</span>}
               {provider?.type === "custom" && (
                 <span className={cn(PILL_CLASS, "bg-amber-500 text-white")}>
                   Custom
@@ -487,29 +478,9 @@ export function ModelPicker() {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[17rem]" align="start">
-        {/* Trial user upgrade banner */}
+        {/* Trial users only see the auto model */}
         {isTrial && (
           <>
-            <div className="px-2 py-3 bg-gradient-to-r from-indigo-50 to-sky-50 dark:from-indigo-950/50 dark:to-sky-950/50">
-              <p className="text-sm text-indigo-700 dark:text-indigo-300 mb-2">
-                Upgrade from Dyad Pro trial to unlock more models.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="cursor-pointer w-full bg-indigo-600 hover:bg-indigo-700 text-white hover:text-white border-indigo-600"
-                onClick={() => {
-                  ipc.system.openExternalUrl(
-                    "https://academy.dyad.sh/subscription",
-                  );
-                  setOpen(false);
-                }}
-              >
-                Upgrade to Dyad Pro
-              </Button>
-            </div>
-            <DropdownMenuSeparator />
-            {/* Trial users only see the auto model */}
             <DropdownMenuItem
               className="relative py-2 bg-primary/8 before:absolute before:inset-y-1.5 before:left-0 before:w-[3px] before:rounded-r-full before:bg-primary"
               onClick={() => {

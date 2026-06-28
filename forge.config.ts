@@ -141,11 +141,11 @@ const config: ForgeConfig = {
     ],
     protocols: [
       {
-        name: "Dyad",
+        name: "Lotus",
         schemes: ["dyad"],
       },
     ],
-    icon: "./assets/icon/logo",
+    icon: "./assets/icon/lotus",
 
     osxSign: isEndToEndTestBuild
       ? undefined
@@ -188,29 +188,29 @@ const config: ForgeConfig = {
             windowsSign,
             iconUrl:
               "https://raw.githubusercontent.com/dyad-sh/dyad/main/assets/icon/logo.ico",
-            setupIcon: "./assets/icon/logo.ico",
+            setupIcon: "./assets/icon/lotus.ico",
           }
         : {
             iconUrl:
               "https://raw.githubusercontent.com/dyad-sh/dyad/main/assets/icon/logo.ico",
-            setupIcon: "./assets/icon/logo.ico",
+            setupIcon: "./assets/icon/lotus.ico",
           },
     ),
     new MakerZIP({}, ["darwin"]),
     new MakerRpm({
       options: {
         mimeType: ["x-scheme-handler/dyad"],
-        icon: "./assets/icon/logo.png",
+        icon: "./assets/icon/lotus.png",
       },
     }),
     new MakerDeb({
       options: {
         mimeType: ["x-scheme-handler/dyad"],
-        icon: "./assets/icon/logo.png",
+        icon: "./assets/icon/lotus.png",
       },
     }),
     new MakerAppImage({
-      icon: "./assets/icon/logo.png",
+      icon: "./assets/icon/lotus.png",
     }),
   ],
   publishers: [

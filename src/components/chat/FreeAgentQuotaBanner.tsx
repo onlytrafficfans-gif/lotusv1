@@ -1,7 +1,6 @@
-import { AlertTriangle, ArrowRight, Sparkles } from "lucide-react";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFreeAgentQuota } from "@/hooks/useFreeAgentQuota";
-import { ipc } from "@/ipc/types";
 
 interface FreeAgentQuotaBannerProps {
   onSwitchToBuildMode: () => void;
@@ -9,7 +8,7 @@ interface FreeAgentQuotaBannerProps {
 
 /**
  * Banner displayed when a free user has exceeded their daily Basic Agent quota.
- * Shows the time until quota resets and provides options to upgrade or switch modes.
+ * Shows the time until quota resets and provides an option to switch modes.
  */
 export function FreeAgentQuotaBanner({
   onSwitchToBuildMode,
@@ -43,10 +42,6 @@ export function FreeAgentQuotaBanner({
       })
     : "";
 
-  const handleUpgrade = () => {
-    ipc.system.openExternalUrl("https://dyad.sh/pro");
-  };
-
   return (
     <div
       className="mx-auto max-w-3xl my-3 p-3 rounded-lg border border-amber-500/30 bg-amber-500/10"
@@ -58,14 +53,10 @@ export function FreeAgentQuotaBanner({
           <p className="text-sm text-amber-700 dark:text-amber-300">
             You have used all {messagesLimit} messages for the free Agent mode
             today. Check back in {resetTimeDisplay} ({resetDateTime}). If you
-            don't want to wait, upgrade to Dyad Pro or switch back to Build
-            mode.
+            don't want to wait, switch back to Build mode or choose a configured
+            provider model.
           </p>
           <div className="flex flex-wrap gap-2">
-            <Button onClick={handleUpgrade} size="sm" className="gap-1.5">
-              <Sparkles className="h-3.5 w-3.5" />
-              Upgrade to Dyad Pro
-            </Button>
             <Button
               onClick={onSwitchToBuildMode}
               variant="outline"

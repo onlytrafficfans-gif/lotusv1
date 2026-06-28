@@ -80,7 +80,7 @@ function formatSettingsLines(settings: UserSettings | null): string {
     `- Selected Model: ${settings.selectedModel?.provider}:${settings.selectedModel?.name}`,
     `- Chat Mode: ${settings.selectedChatMode ?? "default"}`,
     `- Auto Approve Changes: ${settings.autoApproveChanges ?? "n/a"}`,
-    `- Dyad Pro Enabled: ${settings.enableDyadPro ?? "n/a"}`,
+    `- Built-in Gateway Enabled: ${settings.enableDyadPro ?? "n/a"}`,
     `- Thinking Budget: ${settings.thinkingBudget ?? "n/a"}`,
     `- Runtime Mode: ${settings.runtimeMode2 ?? "n/a"}`,
     `- Release Channel: ${settings.releaseChannel ?? "n/a"}`,
@@ -532,9 +532,7 @@ ${formatLogsSection(debugInfo)}
           <div className="border rounded-lg p-4 space-y-3 relative">
             <div className="flex items-center gap-2">
               <MessageSquareIcon className="h-4 w-4 text-primary" />
-              <span className="text-sm font-semibold">
-                AI / Dyad Pro issues
-              </span>
+              <span className="text-sm font-semibold">AI issues</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Best for AI quality issues. Uploads your chat session and code for

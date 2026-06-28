@@ -509,10 +509,10 @@ export const PreviewIframe = ({ loading }: { loading: boolean }) => {
           ? cloudSandboxStatus.lastErrorMessage.includes("Dyad stopped")
             ? cloudSandboxStatus.lastErrorMessage
             : cloudSandboxStatus.terminationReason === "credits_exhausted"
-              ? "This cloud sandbox was stopped because your Dyad Pro credits ran out. Add credits and start it again."
+              ? "This cloud sandbox was stopped because remote execution credits ran out."
               : "This cloud sandbox was stopped because Dyad could not confirm billing. Please try starting it again."
           : cloudSandboxStatus.terminationReason === "credits_exhausted"
-            ? "This cloud sandbox was stopped because your Dyad Pro credits ran out. Add credits and start it again."
+            ? "This cloud sandbox was stopped because remote execution credits ran out."
             : "This cloud sandbox was stopped because Dyad could not confirm billing. Please try starting it again.",
         source: "dyad-app",
       });

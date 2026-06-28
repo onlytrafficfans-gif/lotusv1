@@ -29,7 +29,8 @@ export function CloudSandboxExperimentSwitch() {
       </div>
       <div className="text-sm text-gray-500 dark:text-gray-400">
         Run your app on the Cloud (more secure and uses less local system
-        resources. Note: using Cloud resources consumes Pro credits)
+        resources. Note: using Cloud resources may consume remote execution
+        credits)
       </div>
       {!isEnabled && isCloudModeActive && (
         <div className="rounded bg-amber-50 p-2 text-sm text-amber-700 dark:bg-amber-950/20 dark:text-amber-300">
