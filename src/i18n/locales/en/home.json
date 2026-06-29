@@ -92,7 +92,6 @@
     "continueInstalled": "Continue | I installed Node.js",
     "nodeNotDetected": "Node.js not detected. Closing and re-opening Lotus usually fixes this.",
     "setupAiAccess": "2. Setup AI Access",
-    "notSureWatchVideo": "Not sure what to do? Watch the Get Started video above",
     "setupGeminiApiKey": "Setup Google Gemini API Key",
     "setupOpenRouterApiKey": "Setup OpenRouter API Key",
     "setupDyadPro": "Setup gateway key",

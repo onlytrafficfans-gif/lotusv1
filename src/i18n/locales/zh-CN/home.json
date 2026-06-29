@@ -89,7 +89,6 @@
     "continueInstalled": "继续 | 我已安装 Node.js",
     "nodeNotDetected": "未检测到 Node.js。关闭并重新打开 Dyad 通常可以解决此问题。",
     "setupAiAccess": "2. 设置 AI 访问",
-    "notSureWatchVideo": "不确定该怎么做？观看上方的入门视频",
     "setupGeminiApiKey": "设置 Google Gemini API 密钥",
     "setupOpenRouterApiKey": "设置 OpenRouter API 密钥",
     "setupDyadPro": "设置 Dyad Pro",

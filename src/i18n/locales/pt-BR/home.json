@@ -89,7 +89,6 @@
     "continueInstalled": "Continuar | Instalei o Node.js",
     "nodeNotDetected": "Node.js não detectado. Fechar e reabrir o Dyad geralmente resolve isso.",
     "setupAiAccess": "2. Configurar Acesso à IA",
-    "notSureWatchVideo": "Não sabe o que fazer? Assista ao vídeo de introdução acima",
     "setupGeminiApiKey": "Configurar Chave de API do Google Gemini",
     "setupOpenRouterApiKey": "Configurar Chave de API do OpenRouter",
     "setupDyadPro": "Configurar Dyad Pro",

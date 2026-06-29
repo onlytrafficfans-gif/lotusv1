@@ -99,21 +99,6 @@ export const UPLOAD_CHAT_TIP: MessageConfig = {
     },
   ],
 };
-// https://www.youtube.com/watch?v=a7OoruOkkeg&list=PL1xR2pfIiRlW7mgr9AS95OkFQBtvrSlO5
-export const BUILD_A_BIBLE_APP_TIP: MessageConfig = {
-  spans: [
-    {
-      type: "link",
-      content: "Watch",
-      url: "https://www.youtube.com/watch?v=a7OoruOkkeg&list=PL1xR2pfIiRlW7mgr9AS95OkFQBtvrSlO5",
-    },
-    {
-      type: "text",
-      content: " the creator of Lotus build a Bible app step-by-step",
-    },
-  ],
-};
-
 export const DEBUGGING_TIPS_TIP: MessageConfig = {
   spans: [
     {
@@ -159,7 +144,6 @@ const ALL_MESSAGES = [
   DIFFERENT_MODEL_TIP,
   REPORT_A_BUG_TIP,
   UPLOAD_CHAT_TIP,
-  BUILD_A_BIBLE_APP_TIP,
   DEBUGGING_TIPS_TIP,
   AI_RULES_TIP,
   NEW_CHAT_TIP,
