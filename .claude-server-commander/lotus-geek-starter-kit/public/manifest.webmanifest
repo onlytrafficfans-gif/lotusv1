@@ -20,35 +20,35 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/icons/favicon-16x16.png",
+      "src": "/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/icons/favicon-32x32.png",
+      "src": "/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/icons/favicon-192x192.png",
+      "src": "/favicon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/favicon-192x192-maskable.png",
+      "src": "/favicon-192x192-maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/favicon-512x512.png",
+      "src": "/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/favicon-512x512-maskable.png",
+      "src": "/favicon-512x512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -56,13 +56,13 @@
   ],
   "screenshots": [
     {
-      "src": "/icons/screenshot-540x720.png",
+      "src": "/screenshot-540x720.png",
       "sizes": "540x720",
       "type": "image/png",
       "form_factor": "narrow"
     },
     {
-      "src": "/icons/screenshot-1280x720.png",
+      "src": "/screenshot-1280x720.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
@@ -77,7 +77,7 @@
       "url": "/?action=demo",
       "icons": [
         {
-          "src": "/icons/favicon-96x96.png",
+          "src": "/favicon-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
