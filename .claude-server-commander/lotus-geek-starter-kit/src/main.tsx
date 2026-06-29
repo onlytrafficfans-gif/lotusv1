@@ -23,16 +23,6 @@ if ("serviceWorker" in navigator) {
 
 function AppWithAccess() {
   const [stage, setStage] = useState<"splash" | "access-gate" | "app" | "ended">("splash");
-  const [previewDevice, setPreviewDevice] = useState<"phone" | "tablet" | "desktop">("phone");
-
-  useEffect(() => {
-    // Detect preview device from URL params
-    const params = new URLSearchParams(window.location.search);
-    const device = params.get("preview-device") as "phone" | "tablet" | "desktop" | null;
-    if (device && ["phone", "tablet", "desktop"].includes(device)) {
-      setPreviewDevice(device);
-    }
-  }, []);
 
   useEffect(() => {
     // Check if user already has a valid demo session
@@ -73,11 +63,11 @@ function AppWithAccess() {
 
   // Main app with timer
   return (
-    <div data-preview-device={previewDevice} className={`preview-mode-${previewDevice}`}>
+    <>
       <PWAInstallPrompt />
       <DemoTimer onExpired={handleDemoExpired} />
       <App />
-    </div>
+    </>
   );
 }
 
