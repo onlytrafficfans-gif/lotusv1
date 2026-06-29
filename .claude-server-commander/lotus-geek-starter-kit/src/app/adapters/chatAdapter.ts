@@ -72,7 +72,7 @@ function getRandomFallback(message: string): string {
 }
 
 /**
- * Submit a chat message and stream response from Groq.
+ * Submit a chat message and stream response from OpenRouter.
  * Calls onChunk for each streamed piece.
  * Includes retry logic and mock fallback.
  */
@@ -86,7 +86,13 @@ export async function submitChat(
   // Determine fallback response with variety
   const fallbackResponse = getRandomFallback(message);
 
-  if (!config?.backendUrl) {
+  // Check for OpenRouter API key (environment variable priority)
+  const apiKey =
+    typeof window === "undefined"
+      ? process.env.OPENROUTER_API_KEY
+      : (window as any).OPENROUTER_API_KEY || config?.apiKey;
+
+  if (!apiKey) {
     // Mock: stream response with simulated delays
     onChunk({ type: "start" });
     const chunks = fallbackResponse.split(" ");
@@ -98,7 +104,7 @@ export async function submitChat(
     return;
   }
 
-  // Try to call Groq API with retry logic
+  // Try to call OpenRouter API with retry logic
   let retries = 0;
   const maxRetries = 1;
 
@@ -109,16 +115,34 @@ export async function submitChat(
       const controller = new AbortController();
       const timeoutId = setTimeout(
         () => controller.abort(),
-        config.timeout || 60000
+        config?.timeout || 60000
       );
 
-      const response = await fetch(`${config.backendUrl}/api/chat/groq`, {
+      const response = await fetch("https://openrouter.io/api/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(config.apiKey && { Authorization: `Bearer ${config.apiKey}` }),
+          Authorization: `Bearer ${apiKey}`,
+          "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "https://lotus-demo.vercel.app",
+          "X-Title": "Lotus App Builder",
         },
-        body: JSON.stringify(request),
+        body: JSON.stringify({
+          model: "openai/gpt-4o-mini",
+          messages: [
+            {
+              role: "assistant",
+              content:
+                "You are a helpful AI assistant for building applications. You provide concise, actionable advice for app design, architecture, and deployment.",
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+          stream: true,
+          temperature: 0.7,
+          max_tokens: 1024,
+        }),
         signal: controller.signal,
       });
 
@@ -128,7 +152,7 @@ export async function submitChat(
         // If first attempt failed, retry once
         if (retries < maxRetries) {
           console.warn(
-            `Groq request failed (${response.status}), retrying...`
+            `OpenRouter request failed (${response.status}), retrying...`
           );
           retries++;
           await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1s before retry
@@ -136,12 +160,13 @@ export async function submitChat(
         }
 
         // After retries exhausted, show error and fallback
+        const errorText = await response.text();
         console.warn(
-          `Groq request failed (${response.status}) after ${retries} retries, using fallback`
+          `OpenRouter request failed (${response.status}) after ${retries} retries, using fallback. Error: ${errorText}`
         );
         onChunk({
           type: "error",
-          error: "Groq is temporarily unavailable.",
+          error: "OpenRouter API temporarily unavailable.",
         });
 
         // Stream fallback response
@@ -154,18 +179,43 @@ export async function submitChat(
         return;
       }
 
-      // Stream response from Groq
+      // Stream response from OpenRouter (SSE format)
       if (response.body) {
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
+        let buffer = "";
 
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
 
-            const chunk = decoder.decode(value, { stream: true });
-            onChunk({ type: "chunk", content: chunk });
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+
+            // Keep the last incomplete line in buffer
+            buffer = lines.pop() || "";
+
+            for (const line of lines) {
+              if (line.startsWith("data: ")) {
+                const data = line.slice(6);
+
+                if (data === "[DONE]") {
+                  onChunk({ type: "end" });
+                  return;
+                }
+
+                try {
+                  const parsed = JSON.parse(data);
+                  const content = parsed.choices?.[0]?.delta?.content;
+                  if (content) {
+                    onChunk({ type: "chunk", content });
+                  }
+                } catch (e) {
+                  // Ignore parse errors for incomplete JSON
+                }
+              }
+            }
           }
         } finally {
           reader.releaseLock();
@@ -176,7 +226,7 @@ export async function submitChat(
       return; // Success - exit retry loop
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        console.warn("Groq request timeout, using fallback");
+        console.warn("OpenRouter request timeout, using fallback");
         onChunk({
           type: "error",
           error: "Request timeout. Using fallback response.",
@@ -192,16 +242,16 @@ export async function submitChat(
         return;
       } else if (retries < maxRetries) {
         // Network error - retry once
-        console.warn("Groq request failed, retrying...", error);
+        console.warn("OpenRouter request failed, retrying...", error);
         retries++;
         await new Promise((resolve) => setTimeout(resolve, 1000));
         continue;
       } else {
         // After retries exhausted, show error and fallback
-        console.warn("Groq request failed after retries, using fallback:", error);
+        console.warn("OpenRouter request failed after retries, using fallback:", error);
         onChunk({
           type: "error",
-          error: "Groq is temporarily unavailable.",
+          error: "OpenRouter API temporarily unavailable.",
         });
 
         // Stream fallback response

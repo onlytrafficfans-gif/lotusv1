@@ -174,7 +174,10 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
           setIsTyping(false);
         }
       },
-      { backendUrl: "/api" }
+      {
+        backendUrl: "/api",
+        apiKey: import.meta.env.VITE_OPENROUTER_API_KEY,
+      }
     );
   }
 
