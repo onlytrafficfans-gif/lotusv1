@@ -247,7 +247,6 @@ export function LivePhonePreview({ isVisible, onClose }: LivePhonePreviewProps) 
             title="Live app preview"
           />
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
   );
 }
