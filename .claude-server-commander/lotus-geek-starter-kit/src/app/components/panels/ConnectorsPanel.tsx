@@ -1,5 +1,7 @@
+import React from "react";
 import { Connector } from "../../types";
 import { Modal } from "./Modal";
+import { testConnector, configureConnector } from "../../adapters/connectorAdapter";
 
 interface ConnectorsPanelProps {
   connectors: Connector[];
@@ -12,6 +14,27 @@ export function ConnectorsPanel({
   onToggle,
   onClose,
 }: ConnectorsPanelProps) {
+  const [testing, setTesting] = React.useState<string | null>(null);
+
+  const handleTest = async (connectorId: string) => {
+    setTesting(connectorId);
+    const success = await testConnector(connectorId);
+    console.log(`Connector ${connectorId} test result:`, success);
+    setTesting(null);
+  };
+
+  const handleConfigure = async (connectorId: string) => {
+    const apiKey = prompt(`Enter API key for ${connectorId}:`);
+    if (apiKey) {
+      const result = await configureConnector(connectorId, { apiKey });
+      if (result.success) {
+        onToggle(connectorId);
+      } else {
+        alert(`Configuration failed: ${result.error}`);
+      }
+    }
+  };
+
   return (
     <Modal title="Connectors" onClose={onClose}>
       <div className="p-4 flex flex-col gap-2">
@@ -57,6 +80,28 @@ export function ConnectorsPanel({
               >
                 {c.connected ? "Connected" : "Not Connected"}
               </span>
+              <button
+                onClick={() => handleTest(c.id)}
+                disabled={testing === c.id}
+                className="px-2 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
+                style={{
+                  background: "var(--muted)",
+                  color: "var(--muted-foreground)",
+                  opacity: testing === c.id ? 0.5 : 1,
+                }}
+              >
+                {testing === c.id ? "Testing..." : "Test"}
+              </button>
+              <button
+                onClick={() => handleConfigure(c.id)}
+                className="px-2 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
+                style={{
+                  background: "var(--muted)",
+                  color: "var(--muted-foreground)",
+                }}
+              >
+                Config
+              </button>
               <button
                 onClick={() => onToggle(c.id)}
                 className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"

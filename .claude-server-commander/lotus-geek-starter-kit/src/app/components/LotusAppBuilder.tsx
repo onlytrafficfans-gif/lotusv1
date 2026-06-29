@@ -22,6 +22,10 @@ import { useConnectorToggle, useSkillToggle, useAgentToggle, useCapabilityToggle
 import { useModalState } from "../hooks/useModalState";
 import { formatTime, DEVICE_DIMENSIONS } from "../utils/formatting";
 
+import { loadModels, getStoredModelId } from "../adapters/modelAdapter";
+import { submitChat } from "../adapters/chatAdapter";
+import { loadDeployments } from "../adapters/deployAdapter";
+
 import { ConnectorsPanel } from "./panels/ConnectorsPanel";
 import { SkillsPanel } from "./panels/SkillsPanel";
 import { AgentsPanel } from "./panels/AgentsPanel";
@@ -81,16 +85,39 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
     closeAll,
   } = useModalState();
 
-  // Initialize state with initial data
+  // Load data from adapters on mount
   useEffect(() => {
+    const loadData = async () => {
+      // Load models from adapter
+      try {
+        const modelResponse = await loadModels();
+        if (modelResponse.models && modelResponse.models.length > 0) {
+          const storedModel = getStoredModelId();
+          setSelectedModel(storedModel);
+        }
+      } catch (error) {
+        console.warn("Failed to load models, using default:", error);
+      }
+
+      // Load deployments from adapter
+      try {
+        await loadDeployments();
+      } catch (error) {
+        console.warn("Failed to load deployments:", error);
+      }
+    };
+
+    // Initialize messages and state
     setMessages(initialData.messages || []);
     setInput("");
     setIsTyping(false);
     setView("preview");
-    setSelectedModel(initialData.models?.[0] || "Enigma Auto");
+    setSelectedModel(initialData.models?.[0] || getStoredModelId());
     setAutosaved(true);
     setHistory(["Initial build"]);
     setHistoryIdx(0);
+
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -109,21 +136,48 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
     setInput("");
     setIsTyping(true);
     setAutosaved(false);
+
+    // Use real chat adapter with safe fallback
+    let assistantResponse = "";
+
+    submitChat(
+      { message: text, modelId: selectedModel },
+      (event) => {
+        if (event.type === "start") {
+          // Chat started
+        } else if (event.type === "chunk") {
+          assistantResponse += event.content || "";
+          setMessages((p: ChatMessage[]) => {
+            const lastMsg = p[p.length - 1];
+            if (lastMsg?.role === "assistant" && lastMsg?.id === (Date.now() - 1).toString()) {
+              return [...p.slice(0, -1), { ...lastMsg, content: assistantResponse }];
+            }
+            return p;
+          });
+        } else if (event.type === "end") {
+          setIsTyping(false);
+          setHistory((h: string[]) => [...h.slice(0, historyIdx + 1), text]);
+          setHistoryIdx((i: number) => i + 1);
+          setTimeout(() => setAutosaved(true), 800);
+        } else if (event.type === "error") {
+          console.warn("Chat error:", event.error);
+          setIsTyping(false);
+        }
+      }
+    );
+
+    // Add assistant message placeholder
     setTimeout(() => {
-      setIsTyping(false);
       setMessages((p: ChatMessage[]) => [
         ...p,
         {
-          id: (Date.now() + 1).toString(),
+          id: (Date.now() - 1).toString(),
           role: "assistant",
-          content: "Got it — applying your changes to the preview.",
+          content: "",
           ts: new Date(),
         },
       ]);
-      setHistory((h: string[]) => [...h.slice(0, historyIdx + 1), text]);
-      setHistoryIdx((i: number) => i + 1);
-      setTimeout(() => setAutosaved(true), 800);
-    }, 2000);
+    }, 100);
   }
 
   const toolbar = [

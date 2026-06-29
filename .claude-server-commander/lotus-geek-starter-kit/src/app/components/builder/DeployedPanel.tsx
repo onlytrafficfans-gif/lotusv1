@@ -1,6 +1,59 @@
+import React, { useEffect } from "react";
 import { Zap } from "lucide-react";
+import { loadDeployments, deployToProvider, DeploymentProvider } from "../../adapters/deployAdapter";
 
 export function DeployedPanel() {
+  const [deployments, setDeployments] = React.useState<Record<DeploymentProvider, boolean>>({
+    vercel: false,
+    netlify: false,
+    cloudflare: false,
+    expo: false,
+    "app-store": false,
+    "play-store": false,
+  });
+  const [deploying, setDeploying] = React.useState<DeploymentProvider | null>(null);
+
+  useEffect(() => {
+    const loadDeps = async () => {
+      const response = await loadDeployments();
+      if (response.deployments) {
+        const statusMap: Record<DeploymentProvider, boolean> = {
+          vercel: false,
+          netlify: false,
+          cloudflare: false,
+          expo: false,
+          "app-store": false,
+          "play-store": false,
+        };
+        response.deployments.forEach((d) => {
+          statusMap[d.provider] = d.status === "connected" || d.status === "deployed";
+        });
+        setDeployments(statusMap);
+      }
+    };
+    loadDeps();
+  }, []);
+
+  const handleDeploy = async (provider: DeploymentProvider) => {
+    setDeploying(provider);
+    const result = await deployToProvider(provider, "project_current", (msg) => {
+      console.log(`Deploy: ${msg}`);
+    });
+    if (result.success) {
+      setDeployments((prev) => ({ ...prev, [provider]: true }));
+      alert(`Successfully deployed to ${provider}!\nURL: ${result.url}`);
+    } else {
+      alert(`Deployment failed: ${result.error}`);
+    }
+    setDeploying(null);
+  };
+
+  const providers: { id: DeploymentProvider; label: string }[] = [
+    { id: "vercel", label: "Vercel" },
+    { id: "netlify", label: "Netlify" },
+    { id: "cloudflare", label: "Cloudflare" },
+  ];
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-4 p-8">
       <div
@@ -37,16 +90,19 @@ export function DeployedPanel() {
         </p>
       </div>
       <div className="flex gap-2 mt-2">
-        {["Web App", "App Store", "Play Store"].map((d) => (
+        {providers.map((p) => (
           <button
-            key={d}
+            key={p.id}
+            onClick={() => handleDeploy(p.id)}
+            disabled={deploying === p.id}
             className="px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-80"
             style={{
-              background: "var(--primary)",
-              color: "var(--primary-foreground)",
+              background: deployments[p.id] ? "rgba(107,203,119,0.2)" : "var(--primary)",
+              color: deployments[p.id] ? "#3A8A44" : "var(--primary-foreground)",
+              opacity: deploying === p.id ? 0.6 : 1,
             }}
           >
-            {d}
+            {deploying === p.id ? "Deploying..." : `${p.label}${deployments[p.id] ? " ✓" : ""}`}
           </button>
         ))}
       </div>
