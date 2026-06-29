@@ -1,0 +1,299 @@
+/* Responsive Preview Modes - Device-specific layouts */
+
+/* Phone Mode (Mobile-First) */
+[data-preview-device="phone"] {
+  --preview-max-width: 100%;
+  --preview-padding: 1rem;
+  --preview-gap: 1rem;
+  --card-columns: 1;
+  --sidebar-hidden: true;
+}
+
+[data-preview-device="phone"] body {
+  padding: 0;
+  margin: 0;
+  background-color: #000000;
+  overflow-x: hidden;
+}
+
+[data-preview-device="phone"] .lotus-app-builder {
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Phone: Single column cards */
+[data-preview-device="phone"] .chat-panel,
+[data-preview-device="phone"] .preview-panel,
+[data-preview-device="phone"] .code-panel,
+[data-preview-device="phone"] .deploy-panel {
+  width: 100%;
+  max-height: 50vh;
+  min-height: auto;
+}
+
+[data-preview-device="phone"] .card-grid,
+[data-preview-device="phone"] .connector-list {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Phone: Hide sidebar, show mobile nav */
+[data-preview-device="phone"] .sidebar {
+  display: none;
+}
+
+[data-preview-device="phone"] .top-nav {
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,15,0.95) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Phone: Large touch targets */
+[data-preview-device="phone"] button {
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+}
+
+[data-preview-device="phone"] .input-field {
+  min-height: 48px;
+  padding: 1rem;
+  font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+/* Phone: Bottom navigation friendly */
+[data-preview-device="phone"] .composer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.95);
+}
+
+/* Phone: Clean spacing */
+[data-preview-device="phone"] .message-item {
+  margin: 0.75rem 0;
+  padding: 1rem;
+}
+
+/* Tablet Mode (iPad-like) */
+[data-preview-device="tablet"] {
+  --preview-max-width: 100%;
+  --preview-padding: 1.5rem;
+  --preview-gap: 1.5rem;
+  --card-columns: 2;
+  --sidebar-hidden: false;
+}
+
+[data-preview-device="tablet"] .lotus-app-builder {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  height: 100vh;
+}
+
+/* Tablet: Two-column cards where appropriate */
+[data-preview-device="tablet"] .card-grid,
+[data-preview-device="tablet"] .connector-list {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+[data-preview-device="tablet"] .chat-panel {
+  grid-column: 1 / -1;
+  height: auto;
+  min-height: 300px;
+}
+
+[data-preview-device="tablet"] .preview-panel,
+[data-preview-device="tablet"] .code-panel {
+  grid-column: span 1;
+}
+
+/* Tablet: Sidebar visible */
+[data-preview-device="tablet"] .sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(15,15,10,0.98) 100%);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 1.5rem 1rem;
+  gap: 1.5rem;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Tablet: Comfortable spacing */
+[data-preview-device="tablet"] .message-item {
+  margin: 1rem 0;
+  padding: 1.25rem;
+  border-radius: 12px;
+}
+
+/* Tablet: Wider input */
+[data-preview-device="tablet"] .input-field {
+  padding: 0.875rem 1rem;
+  font-size: 15px;
+}
+
+/* Desktop Mode (Full Web App) */
+[data-preview-device="desktop"] {
+  --preview-max-width: 100%;
+  --preview-padding: 2rem;
+  --preview-gap: 2rem;
+  --card-columns: 3;
+  --sidebar-hidden: false;
+}
+
+[data-preview-device="desktop"] body {
+  background: linear-gradient(135deg, #0a0a08 0%, #1a1a15 100%);
+  overflow: auto;
+}
+
+[data-preview-device="desktop"] .lotus-app-builder {
+  display: grid;
+  grid-template-columns: 320px 1fr 380px;
+  gap: 2rem;
+  padding: 2rem;
+  min-height: 100vh;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* Desktop: Three-column layout where appropriate */
+[data-preview-device="desktop"] .card-grid,
+[data-preview-device="desktop"] .connector-list {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Desktop: Wide sidebar and right panel */
+[data-preview-device="desktop"] .sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(15,15,10,0.8) 100%);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  padding: 2rem 1.5rem;
+  gap: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+[data-preview-device="desktop"] .right-panel {
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+/* Desktop: Generous spacing */
+[data-preview-device="desktop"] .message-item {
+  margin: 1.25rem 0;
+  padding: 1.5rem;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-preview-device="desktop"] .message-item:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+}
+
+/* Desktop: Large buttons */
+[data-preview-device="desktop"] button {
+  padding: 1rem 1.5rem;
+  font-size: 15px;
+  min-height: 44px;
+}
+
+/* Desktop: Comfortable input */
+[data-preview-device="desktop"] .input-field {
+  padding: 1rem 1.25rem;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+/* Shared Responsive Transitions */
+[data-preview-device] * {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-preview-device] .glass-panel {
+  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Responsive Typography */
+[data-preview-device="phone"] .heading-xl {
+  font-size: 24px;
+}
+
+[data-preview-device="tablet"] .heading-xl {
+  font-size: 32px;
+}
+
+[data-preview-device="desktop"] .heading-xl {
+  font-size: 40px;
+}
+
+/* Responsive Gap Utilities */
+[data-preview-device="phone"] .gap-section {
+  gap: 1rem;
+}
+
+[data-preview-device="tablet"] .gap-section {
+  gap: 1.5rem;
+}
+
+[data-preview-device="desktop"] .gap-section {
+  gap: 2rem;
+}
+
+/* Hide elements when not needed */
+[data-preview-device="phone"] .desktop-only {
+  display: none;
+}
+
+[data-preview-device="tablet"] .desktop-only {
+  display: none;
+}
+
+[data-preview-device="phone"] .tablet-only {
+  display: none;
+}
+
+/* Loading state for preview */
+.preview-loading {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Smooth device switch animation */
+@media (prefers-reduced-motion: no-preference) {
+  [data-preview-device] {
+    animation: deviceSwitch 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@keyframes deviceSwitch {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
