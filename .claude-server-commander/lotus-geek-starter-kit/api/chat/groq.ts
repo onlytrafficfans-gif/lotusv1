@@ -84,17 +84,22 @@ export default async function handler(
             messages: [{ role: "user", content: message }],
             temperature: 0.7,
             max_tokens: 2048,
-            stream: false,
+            stream: true,
           }),
         });
 
         if (response.ok) {
-          const data = await response.json();
-          res.status(200).json({
-            content: data.choices[0].message.content,
-            model: data.model,
-            finish_reason: data.choices[0].finish_reason,
-          });
+          // Stream the response from Groq directly to client
+          res.setHeader("Content-Type", "text/event-stream");
+          res.setHeader("Cache-Control", "no-cache");
+          res.setHeader("Connection", "keep-alive");
+
+          if (response.body) {
+            response.body.pipe(res);
+          } else {
+            res.write("data: [DONE]\n\n");
+            res.end();
+          }
           return;
         }
 
