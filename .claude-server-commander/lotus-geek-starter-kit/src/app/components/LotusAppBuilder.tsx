@@ -9,14 +9,11 @@ import {
   Code2,
   Eye,
   Zap,
-  Check,
   MoreHorizontal,
   Undo2,
   Redo2,
-  Brain,
-  ChevronDown,
 } from "lucide-react";
-import logoLotus from "@/imports/logo_lotus.png";
+import logoLotus from "../../imports/logo_lotus.png";
 
 import { AppInitialData, BuildView, ChatMessage } from "../types";
 import { useDeviceSelection } from "../hooks/useDeviceSelection";
@@ -63,16 +60,14 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
   const [historyIdx, setHistoryIdx] = React.useState(0);
 
   const { device, setDevice, dragKey, resetPosition } = useDeviceSelection();
-  const { uploadedFiles, addFiles, removeFile } = useFileManager();
+  const { uploadedFiles, addFiles } = useFileManager();
   const { connectors, toggle: toggleConnector } = useConnectorToggle(initialData.connectors || []);
   const { skills, toggle: toggleSkill } = useSkillToggle(initialData.skills || []);
   const { agents, toggle: toggleAgent } = useAgentToggle(initialData.agents || []);
   const { capabilities, toggle: toggleCap } = useCapabilityToggle(initialData.capabilities || []);
   const {
     showPlus,
-    setShowPlus,
     showModel,
-    setShowModel,
     showConnector,
     setShowConnector,
     showSkills,
