@@ -5,6 +5,7 @@ import { SplashScreen } from "./app/components/access/SplashScreen";
 import { DemoAccessGate } from "./app/components/access/DemoAccessGate";
 import { DemoTimer } from "./app/components/access/DemoTimer";
 import { DemoEndedPage } from "./app/components/access/DemoEndedPage";
+import { PWAInstallPrompt } from "./app/components/pwa/PWAInstallPrompt";
 import { getDemoSession, clearDemoAccess } from "./app/auth/demoAccess";
 import "./styles/index.css";
 
@@ -73,6 +74,7 @@ function AppWithAccess() {
   // Main app with timer
   return (
     <div data-preview-device={previewDevice} className={`preview-mode-${previewDevice}`}>
+      <PWAInstallPrompt />
       <DemoTimer onExpired={handleDemoExpired} />
       <App />
     </div>

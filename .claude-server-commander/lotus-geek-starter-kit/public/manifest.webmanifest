@@ -3,9 +3,18 @@
   "short_name": "Lotus",
   "description": "The future of app building - AI-powered application development platform",
   "start_url": "/",
+  "start_url_mobile": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "scope": "/",
+  "scope_extensions": [
+    {
+      "origin": "https://api.groq.com"
+    }
+  ],
   "orientation": "portrait-primary",
+  "dir": "ltr",
+  "lang": "en-US",
   "theme_color": "#1a1a1a",
   "background_color": "#1a1a1a",
   "prefer_related_applications": false,

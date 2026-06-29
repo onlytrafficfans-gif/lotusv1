@@ -1,10 +1,12 @@
 /**
  * Lotus App Builder Service Worker
- * Handles caching and offline support
+ * Handles PWA installation, caching, and offline support
+ * Supports: Chrome, Firefox, Safari, Edge, Brave, Opera
  */
 
-const CACHE_NAME = "lotus-app-v1";
+const CACHE_NAME = "lotus-app-v2";
 const OFFLINE_URL = "/";
+const RUNTIME_CACHE = "lotus-runtime-v2";
 
 // Files to cache on install
 const PRECACHE_URLS = [

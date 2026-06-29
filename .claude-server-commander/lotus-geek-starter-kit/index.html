@@ -1,26 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lotus - App Builder</title>
+    <meta name="description" content="The future of app building - AI-powered application development platform" />
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
+    <!-- PWA & App Meta Tags -->
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Lotus" />
+    <meta name="application-name" content="Lotus App Builder" />
+    <meta name="msapplication-TileColor" content="#1a1a1a" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="robots" content="noindex, nofollow" />
 
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Lotus - App Builder</title>
-      <meta name="description" content="The future of app building - AI-powered application development platform" />
-      <meta name="theme-color" content="#1a1a1a" />
-      <meta name="robots" content="noindex, nofollow" />
-      <link rel="manifest" href="/manifest.webmanifest" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
 
-    </head>
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" sizes="180x180" />
+    <link rel="apple-touch-icon-precomposed" href="/icons/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/icons/favicon-32x32.png" />
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://api.groq.com" />
+
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      }
+      #root {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
   
