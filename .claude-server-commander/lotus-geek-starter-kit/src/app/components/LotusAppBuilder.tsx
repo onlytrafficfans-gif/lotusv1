@@ -163,7 +163,8 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
           console.warn("Chat error:", event.error);
           setIsTyping(false);
         }
-      }
+      },
+      { backendUrl: "/api" }
     );
 
     // Add assistant message placeholder
