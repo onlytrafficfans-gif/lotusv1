@@ -131,8 +131,14 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
 
   function handleSend(text = input.trim()) {
     if (!text) return;
-    const id = Date.now().toString();
-    setMessages((p: ChatMessage[]) => [...p, { id, role: "user", content: text, ts: new Date() }]);
+    const userId = Date.now().toString();
+    const assistantId = `assistant-${Date.now()}`;
+
+    setMessages((p: ChatMessage[]) => [
+      ...p,
+      { id: userId, role: "user", content: text, ts: new Date() },
+      { id: assistantId, role: "assistant", content: "", ts: new Date() }
+    ]);
     setInput("");
     setIsTyping(true);
     setAutosaved(false);
@@ -148,9 +154,11 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
         } else if (event.type === "chunk") {
           assistantResponse += event.content || "";
           setMessages((p: ChatMessage[]) => {
-            const lastMsg = p[p.length - 1];
-            if (lastMsg?.role === "assistant" && lastMsg?.id === (Date.now() - 1).toString()) {
-              return [...p.slice(0, -1), { ...lastMsg, content: assistantResponse }];
+            const idx = p.findIndex((m) => m.id === assistantId);
+            if (idx >= 0) {
+              const updated = [...p];
+              updated[idx] = { ...updated[idx], content: assistantResponse };
+              return updated;
             }
             return p;
           });
@@ -166,19 +174,6 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
       },
       { backendUrl: "/api" }
     );
-
-    // Add assistant message placeholder
-    setTimeout(() => {
-      setMessages((p: ChatMessage[]) => [
-        ...p,
-        {
-          id: (Date.now() - 1).toString(),
-          role: "assistant",
-          content: "",
-          ts: new Date(),
-        },
-      ]);
-    }, 100);
   }
 
   const toolbar = [
