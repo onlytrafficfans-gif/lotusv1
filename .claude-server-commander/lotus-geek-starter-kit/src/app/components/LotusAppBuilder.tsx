@@ -182,8 +182,8 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
   }
 
   const toolbar = [
-    { icon: <RefreshCw size={12} />, label: "Refresh", onClick: () => {}, show: view === "preview" },
-    { icon: <MoreHorizontal size={12} />, label: "More", onClick: () => {}, show: true },
+    { icon: <RefreshCw size={12} />, label: "Refresh", onClick: () => { window.location.reload(); }, show: view === "preview" },
+    { icon: <MoreHorizontal size={12} />, label: "More", onClick: () => { console.log("More menu - feature coming soon"); }, show: true },
   ];
 
   return (
@@ -250,6 +250,7 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
           </button>
           <motion.button
             whileTap={{ scale: 0.97 }}
+            onClick={() => setView("deployed")}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold"
             style={{ background: "linear-gradient(135deg,#D4A030,#B87820)", color: "#FFF8E8", boxShadow: "0 2px 12px rgba(200,146,42,0.35)" }}
           >
