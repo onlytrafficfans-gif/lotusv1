@@ -11,3 +11,8 @@ declare module "*.txt?raw" {
 }
 
 declare module "*.css";
+
+declare module "*.png" {
+  const src: string;
+  export default src;
+}

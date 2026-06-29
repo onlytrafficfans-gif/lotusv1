@@ -17,6 +17,7 @@ import {
 import { ChatTabs } from "@/components/chat/ChatTabs";
 import { selectedChatIdAtom } from "@/atoms/chatAtoms";
 import { OpenRouterBalance } from "@/components/OpenRouterBalance";
+import { DemoSessionTimer } from "@/components/DemoSessionTimer";
 
 export const TitleBar = () => {
   const [selectedAppId] = useAtom(selectedAppIdAtom);
@@ -83,6 +84,7 @@ export const TitleBar = () => {
       </div>
 
       <div className="flex items-center gap-2 shrink-0 pr-2">
+        <DemoSessionTimer />
         <OpenRouterBalance />
       </div>
 

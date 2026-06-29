@@ -1,0 +1,9 @@
+import { DEMO_MODE } from "@/lib/demo";
+
+export const FEATURE_FLAGS = {
+  EXPORT: !DEMO_MODE,
+  PUBLISH: !DEMO_MODE,
+  DEPLOY: !DEMO_MODE,
+  LOCAL_MODELS: !DEMO_MODE,
+  ONLY_OPENROUTER: DEMO_MODE,
+};

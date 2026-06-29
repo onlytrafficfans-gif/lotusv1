@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
+import { DEMO_MODE } from "@/lib/demo";
 
 interface OpenRouterBalance {
   creditsRemaining: number | null;
@@ -22,8 +23,10 @@ export const OpenRouterBalance = () => {
 
   useEffect(() => {
     loadBalance();
-    // Refresh every 5 minutes
-    const interval = setInterval(loadBalance, 5 * 60 * 1000);
+    const interval = setInterval(
+      loadBalance,
+      DEMO_MODE ? 30_000 : 5 * 60 * 1000,
+    );
     return () => clearInterval(interval);
   }, []);
 
@@ -85,9 +88,7 @@ export const OpenRouterBalance = () => {
           >
             <span>💳</span>
             <span>{formatCurrency(creditsRemaining)}</span>
-            <RotateCw
-              className={`w-3 h-3 ${loading ? "animate-spin" : ""}`}
-            />
+            <RotateCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
           </Button>
         }
       />
@@ -100,7 +101,8 @@ export const OpenRouterBalance = () => {
           {monthlyLimit > 0 && (
             <>
               <div>
-                Monthly: {formatCurrency(monthlyUsage)} / {formatCurrency(monthlyLimit)}
+                Monthly: {formatCurrency(monthlyUsage)} /{" "}
+                {formatCurrency(monthlyLimit)}
               </div>
               <div className="w-32 h-1 bg-gray-300 rounded-full overflow-hidden mt-1">
                 <div
@@ -112,9 +114,7 @@ export const OpenRouterBalance = () => {
               </div>
             </>
           )}
-          <div className="text-xs text-gray-400 mt-2">
-            Click to refresh
-          </div>
+          <div className="text-xs text-gray-400 mt-2">Click to refresh</div>
         </div>
       </TooltipContent>
     </Tooltip>

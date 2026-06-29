@@ -1,0 +1,100 @@
+@keyframes lotus-signin-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lotus-signin-step {
+  animation: lotus-signin-slide-in 0.4s ease-out;
+}
+
+.lotus-signin-input {
+  width: 100%;
+  border: 2px solid #3a3a2a;
+  border-radius: 8px;
+  background: #1a1a12;
+  padding: 14px 16px;
+  color: #d4a574;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.lotus-signin-input::placeholder {
+  color: #6b5745;
+}
+
+.lotus-signin-input:focus {
+  border-color: #d4a574;
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+.lotus-signin-role {
+  width: 100%;
+  border: 2px solid #3a3a2a;
+  border-radius: 8px;
+  background: #1a1a12;
+  padding: 14px 16px;
+  color: #8b7355;
+  text-align: left;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.lotus-signin-role:hover,
+.lotus-signin-role:focus,
+.lotus-signin-role-selected {
+  border-color: #d4a574;
+  background: #2a2a1a;
+  color: #d4a574;
+  outline: none;
+}
+
+.lotus-signin-back,
+.lotus-signin-next {
+  flex: 1;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 15px;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+.lotus-signin-back {
+  border: 2px solid #3a3a2a;
+  background: transparent;
+  color: #8b7355;
+}
+
+.lotus-signin-next {
+  border: 0;
+  background: linear-gradient(135deg, #d4a574, #a0825d);
+  color: #000000;
+  font-weight: 600;
+}
+
+.lotus-signin-back:hover:not(:disabled),
+.lotus-signin-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 165, 116, 0.3);
+}
+
+.lotus-signin-back:disabled,
+.lotus-signin-next:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

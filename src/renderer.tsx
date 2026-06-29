@@ -29,6 +29,7 @@ import {
 import { pendingQuestionnaireAtom } from "./atoms/planAtoms";
 import { pendingIntegrationAtom } from "./atoms/integrationAtoms";
 import { queryKeys } from "./lib/queryKeys";
+import { LotusDemoSignIn } from "./components/LotusDemoSignIn";
 import {
   createExceptionFromTelemetry,
   getExceptionTelemetryContext,
@@ -304,7 +305,11 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <LotusDemoSignIn>
+      <RouterProvider router={router} />
+    </LotusDemoSignIn>
+  );
 }
 
 createRoot(document.getElementById("root")!).render(
