@@ -4,7 +4,6 @@ import {
   getInitialSkills,
   getInitialAgents,
   getInitialCapabilities,
-  getInitialMessages,
   getInitialFiles,
 } from "./adapters/mockData";
 import { AppInitialData } from "./types";
@@ -21,7 +20,7 @@ export default function App({ initialData }: AppProps) {
     skills: initialData?.skills || getInitialSkills(),
     agents: initialData?.agents || getInitialAgents(),
     capabilities: initialData?.capabilities || getInitialCapabilities(),
-    messages: initialData?.messages || getInitialMessages(),
+    messages: initialData?.messages || [], // Start with blank chat
     files: initialData?.files || getInitialFiles(),
   };
 
