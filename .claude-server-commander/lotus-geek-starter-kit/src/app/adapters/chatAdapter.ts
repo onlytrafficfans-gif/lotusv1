@@ -29,9 +29,9 @@ const MOCK_RESPONSES: Record<string, string> = {
 };
 
 /**
- * Submit a chat message and stream response.
+ * Submit a chat message and stream response from Groq.
  * Calls onChunk for each streamed piece.
- * Falls back to mock response if backend unavailable.
+ * Includes retry logic and mock fallback.
  */
 export async function submitChat(
   request: ChatSubmitRequest,
@@ -40,109 +40,141 @@ export async function submitChat(
 ): Promise<void> {
   const { message } = request;
 
-  // Determine mock response
-  let mockResponse = MOCK_RESPONSES.default;
+  // Determine fallback response
+  let fallbackResponse = MOCK_RESPONSES.default;
   if (message.toLowerCase().includes("plan")) {
-    mockResponse = MOCK_RESPONSES.plan;
+    fallbackResponse = MOCK_RESPONSES.plan;
   } else if (message.toLowerCase().includes("deploy")) {
-    mockResponse = MOCK_RESPONSES.deploy;
+    fallbackResponse = MOCK_RESPONSES.deploy;
   }
 
   if (!config?.backendUrl) {
     // Mock: stream response with simulated delays
     onChunk({ type: "start" });
-
-    // Simulate streaming by breaking response into chunks
-    const chunks = mockResponse.split(" ");
+    const chunks = fallbackResponse.split(" ");
     for (const chunk of chunks) {
       await new Promise((resolve) => setTimeout(resolve, 30));
       onChunk({ type: "chunk", content: chunk + " " });
     }
-
     onChunk({ type: "end" });
     return;
   }
 
-  try {
-    onChunk({ type: "start" });
+  // Try to call Groq API with retry logic
+  let retries = 0;
+  const maxRetries = 1;
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(
-      () => controller.abort(),
-      config.timeout || 60000
-    );
+  while (retries <= maxRetries) {
+    try {
+      onChunk({ type: "start" });
 
-    const response = await fetch(`${config.backendUrl}/api/chat/stream`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(config.apiKey && { Authorization: `Bearer ${config.apiKey}` }),
-      },
-      body: JSON.stringify(request),
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      console.warn(
-        `Chat request failed (${response.status}), using mock response`
+      const controller = new AbortController();
+      const timeoutId = setTimeout(
+        () => controller.abort(),
+        config.timeout || 60000
       );
-      // Fallback to mock on error
-      const chunks = mockResponse.split(" ");
-      for (const chunk of chunks) {
-        await new Promise((resolve) => setTimeout(resolve, 30));
-        onChunk({ type: "chunk", content: chunk + " " });
-      }
-      onChunk({ type: "end" });
-      return;
-    }
 
-    // Stream response
-    if (response.body) {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
+      const response = await fetch(`${config.backendUrl}/api/chat/groq`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(config.apiKey && { Authorization: `Bearer ${config.apiKey}` }),
+        },
+        body: JSON.stringify(request),
+        signal: controller.signal,
+      });
 
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+      clearTimeout(timeoutId);
 
-          const chunk = decoder.decode(value, { stream: true });
-          onChunk({ type: "chunk", content: chunk });
+      if (!response.ok) {
+        // If first attempt failed, retry once
+        if (retries < maxRetries) {
+          console.warn(
+            `Groq request failed (${response.status}), retrying...`
+          );
+          retries++;
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1s before retry
+          continue;
         }
-      } finally {
-        reader.releaseLock();
-      }
-    }
 
-    onChunk({ type: "end" });
-  } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") {
-      onChunk({
-        type: "error",
-        error: "Request timeout. Falling back to mock response.",
-      });
-      // Stream mock response as fallback
-      const chunks = mockResponse.split(" ");
-      for (const chunk of chunks) {
-        await new Promise((resolve) => setTimeout(resolve, 30));
-        onChunk({ type: "chunk", content: chunk + " " });
+        // After retries exhausted, show error and fallback
+        console.warn(
+          `Groq request failed (${response.status}) after ${retries} retries, using fallback`
+        );
+        onChunk({
+          type: "error",
+          error: "Groq is temporarily unavailable.",
+        });
+
+        // Stream fallback response
+        const chunks = fallbackResponse.split(" ");
+        for (const chunk of chunks) {
+          await new Promise((resolve) => setTimeout(resolve, 30));
+          onChunk({ type: "chunk", content: chunk + " " });
+        }
+        onChunk({ type: "end" });
+        return;
       }
-      onChunk({ type: "end" });
-    } else {
-      console.warn("Chat request failed, using mock response:", error);
-      onChunk({
-        type: "error",
-        error: error instanceof Error ? error.message : "Chat failed",
-      });
-      // Stream mock response as fallback
-      const chunks = mockResponse.split(" ");
-      for (const chunk of chunks) {
-        await new Promise((resolve) => setTimeout(resolve, 30));
-        onChunk({ type: "chunk", content: chunk + " " });
+
+      // Stream response from Groq
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            onChunk({ type: "chunk", content: chunk });
+          }
+        } finally {
+          reader.releaseLock();
+        }
       }
+
       onChunk({ type: "end" });
+      return; // Success - exit retry loop
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        console.warn("Groq request timeout, using fallback");
+        onChunk({
+          type: "error",
+          error: "Request timeout. Using fallback response.",
+        });
+
+        // Stream fallback response
+        const chunks = fallbackResponse.split(" ");
+        for (const chunk of chunks) {
+          await new Promise((resolve) => setTimeout(resolve, 30));
+          onChunk({ type: "chunk", content: chunk + " " });
+        }
+        onChunk({ type: "end" });
+        return;
+      } else if (retries < maxRetries) {
+        // Network error - retry once
+        console.warn("Groq request failed, retrying...", error);
+        retries++;
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        continue;
+      } else {
+        // After retries exhausted, show error and fallback
+        console.warn("Groq request failed after retries, using fallback:", error);
+        onChunk({
+          type: "error",
+          error: "Groq is temporarily unavailable.",
+        });
+
+        // Stream fallback response
+        const chunks = fallbackResponse.split(" ");
+        for (const chunk of chunks) {
+          await new Promise((resolve) => setTimeout(resolve, 30));
+          onChunk({ type: "chunk", content: chunk + " " });
+        }
+        onChunk({ type: "end" });
+        return;
+      }
     }
   }
 }
