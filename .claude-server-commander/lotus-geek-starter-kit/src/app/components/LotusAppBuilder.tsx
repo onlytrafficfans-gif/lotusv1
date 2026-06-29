@@ -35,6 +35,7 @@ import { ViewAppMenu } from "./panels/ViewAppMenu";
 import { CodePanel } from "./builder/CodePanel";
 import { DeployedPanel } from "./builder/DeployedPanel";
 import { PreviewPanel } from "./builder/PreviewPanel";
+import { LivePhonePreview } from "./builder/LivePhonePreview";
 import { TypingIndicator } from "./builder/TypingIndicator";
 
 interface LotusAppBuilderProps {
@@ -62,6 +63,7 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
   const [autosaved, setAutosaved] = React.useState(true);
   const [history, setHistory] = React.useState(["Initial build"]);
   const [historyIdx, setHistoryIdx] = React.useState(0);
+  const [showLivePreview, setShowLivePreview] = React.useState(false);
 
   const { device, setDevice, dragKey, resetPosition } = useDeviceSelection();
   const { uploadedFiles, addFiles } = useFileManager();
@@ -177,6 +179,7 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
   }
 
   const toolbar = [
+    { icon: <Smartphone size={12} />, label: "Live Preview", onClick: () => setShowLivePreview(!showLivePreview), show: true, active: showLivePreview },
     { icon: <RefreshCw size={12} />, label: "Refresh", onClick: () => { window.location.reload(); }, show: view === "preview" },
     { icon: <MoreHorizontal size={12} />, label: "More", onClick: () => { console.log("More menu - feature coming soon"); }, show: true },
   ];
@@ -236,6 +239,19 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
             </button>
           </div>
           <div className="h-4 w-px mx-1" style={{ background: "var(--border)" }} />
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={() => setShowLivePreview(!showLivePreview)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all"
+            style={{
+              background: showLivePreview ? "linear-gradient(135deg,#D4A030,#B87820)" : "var(--muted)",
+              color: showLivePreview ? "#FFF8E8" : "var(--foreground)",
+              border: `1px solid ${showLivePreview ? "transparent" : "var(--border)"}`,
+              boxShadow: showLivePreview ? "0 2px 12px rgba(200,146,42,0.35)" : "none",
+            }}
+          >
+            <Smartphone size={11} /> Live Preview
+          </motion.button>
           <button
             onClick={() => setShowViewApp(true)}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-80"
@@ -461,6 +477,9 @@ export function LotusAppBuilder({ initialData }: LotusAppBuilderProps) {
       </AnimatePresence>
 
       {(showPlus || showModel) && <div className="fixed inset-0 z-30" onClick={closeAll} />}
+
+      {/* Live Phone Preview */}
+      <LivePhonePreview isVisible={showLivePreview} onClose={() => setShowLivePreview(false)} />
     </div>
   );
 }
