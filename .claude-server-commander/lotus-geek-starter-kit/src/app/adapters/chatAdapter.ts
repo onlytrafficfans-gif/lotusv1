@@ -19,14 +19,57 @@ export interface ChatStreamEvent {
   error?: string;
 }
 
-// Mock responses for fallback
-const MOCK_RESPONSES: Record<string, string> = {
-  default:
-    "I understand you want to build an app. Let me help you design the architecture, set up the backend, and deploy it. What's your main goal?",
-  plan: "Based on your requirements, here's a solid plan:\n\n1. **Backend**: Set up Supabase for database & auth\n2. **Frontend**: Build with React + Vite\n3. **Deployment**: Host on Vercel\n4. **Monitoring**: Add Sentry for error tracking\n\nShould we start with the backend setup?",
-  deploy:
-    "I can help you deploy this app to Vercel, Netlify, or Cloudflare Pages. Which platform do you prefer? I'll handle the configuration.",
+// Enhanced fallback responses with more variety
+const FALLBACK_RESPONSES = {
+  default: [
+    "I'd love to help build your app! What kind of application are you thinking of? (e.g., mobile app, web app, SaaS platform)",
+    "Great idea! Let's start by understanding your requirements. What problem does this app solve?",
+    "I'm here to help you build something amazing. Tell me more about your vision - what features are most important?",
+    "Let's design your app together. What's the primary use case you're targeting?",
+    "I can help you architect, design, and deploy. What's the first thing you'd like to tackle?",
+  ],
+  plan: [
+    "Based on your requirements, here's a solid implementation plan:\n\n1. **Design Phase**: Wireframe key user flows\n2. **Backend**: Set up database and APIs\n3. **Frontend**: Build UI with React & TypeScript\n4. **Testing**: Add comprehensive test coverage\n5. **Deployment**: Deploy to Vercel or similar\n\nWhich phase should we start with?",
+    "Here's my recommended development strategy:\n\n**Week 1**: Architecture & setup\n**Week 2**: Core features\n**Week 3**: Polish & testing\n**Week 4**: Launch preparation\n\nDoes this timeline work for you?",
+    "For your app, I'd recommend:\n\n• **Frontend**: Next.js + React for scalability\n• **Backend**: Node.js + Express or FastAPI\n• **Database**: PostgreSQL for reliability\n• **Hosting**: Vercel for frontend, Railway/Render for backend\n\nReady to start coding?",
+  ],
+  deploy: [
+    "I can help deploy your app to multiple platforms! Here are your options:\n\n1. **Vercel** - Best for Next.js/React\n2. **Netlify** - Great for static sites\n3. **Cloudflare Pages** - Ultra-fast edge deployment\n4. **AWS** - Most flexible, most complex\n\nWhich platform interests you?",
+    "Deployment made easy! I can set up:\n\n✓ Auto-deploys on git push\n✓ Environment variables & secrets\n✓ Custom domains & SSL\n✓ Preview deployments\n✓ Monitoring & alerts\n\nWhich hosting platform do you prefer?",
+    "Let's get your app live! We can deploy to:\n\n• Vercel (recommended for React/Next.js)\n• Netlify (good for static sites)\n• Railway (full-stack apps)\n• Render (reliable backend hosting)\n\nWhat's your preference?",
+  ],
+  improve: [
+    "To improve your UI, I'd focus on:\n\n1. **Typography** - Better font hierarchy\n2. **Spacing** - More breathing room\n3. **Colors** - Cohesive color palette\n4. **Interactions** - Smooth animations\n5. **Mobile** - Responsive design\n\nWhich area matters most?",
+    "Here are some quick wins for better UX:\n\n• Add micro-interactions (hover, focus states)\n• Improve accessibility (WCAG compliance)\n• Optimize for mobile\n• Add loading states\n• Better error messages\n\nWant to tackle any of these?",
+  ],
+  bug: [
+    "Let's debug this together! Can you tell me:\n\n1. What's the error message?\n2. When does it happen?\n3. What were you trying to do?\n4. Any patterns to when it fails?\n\nI'll help find and fix it.",
+    "No problem, we'll squash that bug! Help me understand:\n\n• What's broken?\n• How to reproduce it?\n• Does it happen consistently?\n• Any error logs?\n\nOnce I have details, I can fix it quickly.",
+  ],
 };
+
+/**
+ * Get a random fallback response based on message context
+ */
+function getRandomFallback(message: string): string {
+  const lower = message.toLowerCase();
+  let responses: string[];
+
+  if (lower.includes("plan") || lower.includes("architect") || lower.includes("design")) {
+    responses = FALLBACK_RESPONSES.plan;
+  } else if (lower.includes("deploy") || lower.includes("launch") || lower.includes("host")) {
+    responses = FALLBACK_RESPONSES.deploy;
+  } else if (lower.includes("improve") || lower.includes("ui") || lower.includes("ux") || lower.includes("design")) {
+    responses = FALLBACK_RESPONSES.improve;
+  } else if (lower.includes("bug") || lower.includes("error") || lower.includes("fix") || lower.includes("broken")) {
+    responses = FALLBACK_RESPONSES.bug;
+  } else {
+    responses = FALLBACK_RESPONSES.default;
+  }
+
+  // Return random response from the selected category
+  return responses[Math.floor(Math.random() * responses.length)];
+}
 
 /**
  * Submit a chat message and stream response from Groq.
@@ -40,13 +83,8 @@ export async function submitChat(
 ): Promise<void> {
   const { message } = request;
 
-  // Determine fallback response
-  let fallbackResponse = MOCK_RESPONSES.default;
-  if (message.toLowerCase().includes("plan")) {
-    fallbackResponse = MOCK_RESPONSES.plan;
-  } else if (message.toLowerCase().includes("deploy")) {
-    fallbackResponse = MOCK_RESPONSES.deploy;
-  }
+  // Determine fallback response with variety
+  const fallbackResponse = getRandomFallback(message);
 
   if (!config?.backendUrl) {
     // Mock: stream response with simulated delays
